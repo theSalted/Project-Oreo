@@ -1,7 +1,7 @@
 let config = {
 	type: Phaser.CANVAS,
 	width: 640,
-	height: 480,
+	height: 400,
 	physics: { //arcade physics
         default: 'arcade',
         arcade: {
@@ -25,6 +25,7 @@ var player;
 var cursors;
 var groundLayer;
 var text;
+var door;
 
 // reserve keyboard vars
 let keyLEFT, keyRIGHT, keySPACE, keyR, keyQ;

@@ -6,7 +6,7 @@ class Level1 extends Phaser.Scene {
         // map made with Tiled in JSON format
         this.load.tilemapTiledJSON('level1', 'assets/map.json');
         // tiles in spritesheet 
-        this.load.spritesheet('tiles', 'assets/tiles.png', { frameWidth: 30, frameHeight: 2 });
+        this.load.image('tiles', 'assets/tiles.png');
         // player animations
         this.load.atlas('player', 'assets/player.png', 'assets/player.json');
     }
@@ -19,8 +19,8 @@ class Level1 extends Phaser.Scene {
         var groundTiles = map.addTilesetImage('tileset', 'tiles');
         // create the ground layer
         groundLayer = map.createLayer('Background', groundTiles, 0, 0);
-        // the player will collide with this layer
-        groundLayer.setCollisionByExclusion([-1]);
+        //player collision
+        groundLayer.setCollisionByProperty({ collides: true });
 
         // set the boundaries of our game world
         this.physics.world.bounds.width = groundLayer.width;
@@ -28,7 +28,7 @@ class Level1 extends Phaser.Scene {
 
         // create the player sprite    
         player = this.physics.add.sprite(16, 16, 'player');
-        player.setScale(.4);
+        player.setScale(0.4, 0.4);
         //player.setBounce(0.2); // our player will bounce from items
         player.setCollideWorldBounds(true); // don't go out of the map    
 
