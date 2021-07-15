@@ -16,12 +16,12 @@ class Level1 extends Phaser.Scene {
         map = this.make.tilemap({ key: 'level1' });
 
         // tiles for the ground layer
-        var groundTiles = map.addTilesetImage('tileset', 'tiles');
+        var groundTiles = map.addTilesetImage('tileset', 'tiles', 16, 16);
         // create the ground layer
         groundLayer = map.createLayer('Background', groundTiles, 0, 0);
         //player collision
         //groundLayer.setCollisionByProperty({ collides: true });
-        groundLayer.setCollisionByExclusion([-1]);
+        groundLayer.setCollisionByExclusion(-1, true);
 
         // set the boundaries of our game world
         this.physics.world.bounds.width = groundLayer.width;
@@ -30,14 +30,11 @@ class Level1 extends Phaser.Scene {
         // create the player sprite    
         player = this.physics.add.sprite(16, 16, 'player');
         player.setScale(0.4, 0.4);
-        //player.setBounce(0.2); // our player will bounce from items
+        player.setBounce(0.2); // our player will bounce from items
         player.setCollideWorldBounds(true); // don't go out of the map    
 
-        // small fix to our player images, we resize the physics body object slightly
-        //player.body.setSize(player.width, player.height - 8);
-
         // player will collide with the level tiles 
-        this.physics.add.collider(groundLayer, player);
+        this.physics.add.collider(player, groundLayer);
 
         // player walk animation
         this.anims.create({
@@ -52,7 +49,6 @@ class Level1 extends Phaser.Scene {
             frames: [{ key: 'player', frame: 'p1_stand' }],
             frameRate: 10,
         });
-
 
         cursors = this.input.keyboard.createCursorKeys();
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
