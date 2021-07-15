@@ -23,7 +23,7 @@ var p1Score = 0;
 var map;
 var player;
 var cursors;
-var groundLayer, coinLayer;
+var groundLayer;
 var text;
 
 // reserve keyboard vars

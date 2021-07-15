@@ -4,67 +4,65 @@ class Level1 extends Phaser.Scene {
     }
     preload() {
         // map made with Tiled in JSON format
-        this.load.tilemapTiledJSON('map', 'assets/map.json');
+        this.load.tilemapTiledJSON('level1', 'assets/map.json');
         // tiles in spritesheet 
-        this.load.spritesheet('tiles', 'assets/tiles.png', { frameWidth: 70, frameHeight: 70 });
+        this.load.spritesheet('tiles', 'assets/tiles.png', { frameWidth: 30, frameHeight: 2 });
         // player animations
         this.load.atlas('player', 'assets/player.png', 'assets/player.json');
-        this.load.spritesheet('wall-b', './assets/Wall-b.png', {frameWidth: 56, frameHeight: 68, startFrame: 0, endFrame: 3})
     }
 
     create() {
         // load the map 
-    map = this.make.tilemap({key: 'map'});
- 
-    // tiles for the ground layer
-    var groundTiles = map.addTilesetImage('tiles');
-    // create the ground layer
-    groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
-    // the player will collide with this layer
-    groundLayer.setCollisionByExclusion([-1]);
- 
-    // set the boundaries of our game world
-    this.physics.world.bounds.width = groundLayer.width;
-    this.physics.world.bounds.height = groundLayer.height;
- 
-    // create the player sprite    
-    player = this.physics.add.sprite(200, 200, 'player');
-    player.setBounce(0.2); // our player will bounce from items
-    player.setCollideWorldBounds(true); // don't go out of the map    
-    
-    // small fix to our player images, we resize the physics body object slightly
-    player.body.setSize(player.width, player.height-8);
-    
-    // player will collide with the level tiles 
-    this.physics.add.collider(groundLayer, player);
-   
-    this.physics.add.overlap(player, coinLayer);
- 
-    // player walk animation
-    this.anims.create({
-        key: 'walk',
-        frames: this.anims.generateFrameNames('player', {prefix: 'p1_walk', start: 1, end: 11, zeroPad: 2}),
-        frameRate: 10,
-        repeat: -1
-    });
-    // idle with only one frame, so repeat is not neaded
-    this.anims.create({
-        key: 'idle',
-        frames: [{key: 'player', frame: 'p1_stand'}],
-        frameRate: 10,
-    });
- 
- 
-    cursors = this.input.keyboard.createCursorKeys();
-    keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
- 
-    // set bounds so the camera won't go outside the game world
-    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    // make the camera follow the player
-    this.cameras.main.startFollow(player);
- 
-    // set background color, so the sky is not black    
-    this.cameras.main.setBackgroundColor('#ccccff');
+        map = this.make.tilemap({ key: 'level1' });
+
+        // tiles for the ground layer
+        var groundTiles = map.addTilesetImage('tileset', 'tiles');
+        // create the ground layer
+        groundLayer = map.createLayer('Background', groundTiles, 0, 0);
+        // the player will collide with this layer
+        groundLayer.setCollisionByExclusion([-1]);
+
+        // set the boundaries of our game world
+        this.physics.world.bounds.width = groundLayer.width;
+        this.physics.world.bounds.height = groundLayer.height;
+
+        // create the player sprite    
+        player = this.physics.add.sprite(16, 16, 'player');
+        player.setScale(.4);
+        //player.setBounce(0.2); // our player will bounce from items
+        player.setCollideWorldBounds(true); // don't go out of the map    
+
+        // small fix to our player images, we resize the physics body object slightly
+        //player.body.setSize(player.width, player.height - 8);
+
+        // player will collide with the level tiles 
+        this.physics.add.collider(groundLayer, player);
+
+        // player walk animation
+        this.anims.create({
+            key: 'walk',
+            frames: this.anims.generateFrameNames('player', { prefix: 'p1_walk', start: 1, end: 11, zeroPad: 2 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        // idle with only one frame, so repeat is not neaded
+        this.anims.create({
+            key: 'idle',
+            frames: [{ key: 'player', frame: 'p1_stand' }],
+            frameRate: 10,
+        });
+
+
+        cursors = this.input.keyboard.createCursorKeys();
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        // set bounds so the camera won't go outside the game world
+        this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+        // make the camera follow the player
+        this.cameras.main.startFollow(player);
+
+        // set background color, so the sky is not black    
+        this.cameras.main.setBackgroundColor('#ccccff');
     }
 
     update() {
@@ -92,9 +90,9 @@ class Level1 extends Phaser.Scene {
             player.body.setVelocityX(0);
             player.anims.play('idle', true);
         }
-        
+
         if (Phaser.Input.Keyboard.JustDown(keySPACE) && player.body.onFloor()) {
-            player.body.setVelocityY(-500); // jump up
+            player.body.setVelocityY(-0.5); // jump up
         }
     }
 }
