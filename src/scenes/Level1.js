@@ -48,6 +48,8 @@ class Level1 extends Phaser.Scene {
         //mecha.setBounceY(0.3);
         mecha.setCollideWorldBounds(true);
         
+        // initialize mecha collectable flag
+        mecha.collectable = true;
         
         // define colliders
         this.physics.add.collider(wallb, groundLayer);
@@ -101,14 +103,7 @@ class Level1 extends Phaser.Scene {
                 player.anims.play('walk', true); // play walk animation
             }
             player.flipX = true; // flip the sprite to the left
-            if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-                if(player.body.onFloor()) {
-                    player.body.setVelocityY(-270); // jump up
-                } else if(this.canMidAirJump) {
-                    player.body.setVelocityY(-270);
-                    this.canMidAirJump = false;
-                }
-            }
+            this.midAirJump() 
         }
         else if (cursors.right.isDown) { // if the right arrow key is down
             player.body.setVelocityX(200); // move right
@@ -116,43 +111,64 @@ class Level1 extends Phaser.Scene {
                 player.anims.play('walk', true); // play walk animation
             }
             player.flipX = false; // use the original sprite looking to the right
-            if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-                if(player.body.onFloor()) {
-                    player.body.setVelocityY(-270); // jump up
-                } else if(this.canMidAirJump) {
-                    player.body.setVelocityY(-200);
-                    this.canMidAirJump = false;
-                }
-            }
+            this.midAirJump() 
         } else {
             player.body.setVelocityX(0);
             if(player == wallb){
                 player.anims.play('idle', true);
             }
         }
-        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            if(player.body.onFloor()) {
-                player.body.setVelocityY(-270); // jump up
-            } else if(this.canMidAirJump) {
-                player.body.setVelocityY(-200);
-                this.canMidAirJump = false;
-            }
-        }
+        
+        this.midAirJump() 
         
         // reset mid air jump upon hit the ground
         if(player.body.onFloor()) {
              this.canMidAirJump = true;
-         }
+        }
+        
+        // mech can only be collect after touching the ground
+        if(player == wallb && mecha.body.onFloor()) {
+            mecha.collectable = true;
+        }
     }
     collectMecha() {
         console.log('collect!');
-        // make player the mecha
-        player = mecha
-        // update the camera 
-        this.cameras.main.startFollow(player);
-        // disable wallb physics
-        wallb.body.enable = false;
-        // hide wallb
-        wallb.alpha = 0;
+        // combine mech and wallb
+        if(mecha.collectable) {
+            // make player the mecha
+            player = mecha
+            // update the camera 
+            this.cameras.main.startFollow(player);
+            // disable wallb physics
+            wallb.body.enable = false;
+            // hide wallb
+            wallb.alpha = 0;
+            // make mech un-collectable once combine
+            mecha.collectable = false;
+        }
+    }
+    
+    midAirJump() {
+        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+            if(player.body.onFloor()) {
+                player.body.setVelocityY(-270); // jump up
+            } else if(this.canMidAirJump && player == mecha) {
+                // update wallb position
+                wallb.x = mecha.x;
+                wallb.y = mecha.y - 20;
+                // re-enable wallb physics
+                wallb.body.enable = true;
+                // make wallb reaper
+                wallb.alpha = 1;
+                // make the player wallb
+                player = wallb
+                // update the camera 
+                this.cameras.main.startFollow(player);
+                // mid air jump
+                player.body.setVelocityY(-270);
+                // disable mid air jump once performed
+                this.canMidAirJump = false;
+            }
+        }
     }
 }

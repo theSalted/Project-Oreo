@@ -22,6 +22,7 @@ var p1Score = 0;
 
 var map;
 var player;
+var wallb;
 var mecha;
 var cursors;
 var groundLayer;
