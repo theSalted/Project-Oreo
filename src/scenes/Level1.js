@@ -43,7 +43,7 @@ class Level1 extends Phaser.Scene {
         wallb.setCollideWorldBounds(true); // don't go out of the map    
         
         // create the Mecha sprite
-        mecha = this.physics.add.sprite(350, 16, 'mecha');
+        mecha = this.physics.add.sprite(500, 16, 'mecha');
         mecha.setScale(0.8, 0.8);
         //mecha.setBounceY(0.3);
         mecha.setCollideWorldBounds(true);
@@ -160,7 +160,7 @@ class Level1 extends Phaser.Scene {
             if(player.body.onFloor()) {
                 if(player == wallb) {
                     // wallb jump height
-                    player.body.setVelocityY(-270);// jump up
+                    player.body.setVelocityY(-200);// jump up
                 } else if(player == mecha) {
                     // mecha jump height
                     player.body.setVelocityY(-300);// jump up
