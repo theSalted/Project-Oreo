@@ -9,6 +9,8 @@ class Level1 extends Phaser.Scene {
         this.load.image('tiles', 'assets/tiles.png');
         // player animations
         this.load.atlas('player', 'assets/player.png', 'assets/player.json');
+        // load mecha sprite
+        this.load.image('mecha', './assets/wall-b-mecha.png')
         this.load.spritesheet('wall-b', './assets/wall-b.png', {frameWidth: 56, frameHeight: 68, startFrame: 0, endFrame: 3})
     }
 
@@ -21,7 +23,7 @@ class Level1 extends Phaser.Scene {
         
         // load the map 
         map = this.make.tilemap({ key: 'level1' });
-
+        
         // tiles for the ground layer
         var groundTiles = map.addTilesetImage('tileset', 'tiles', 16, 16);
         // create the ground layer
@@ -35,13 +37,25 @@ class Level1 extends Phaser.Scene {
         this.physics.world.bounds.height = groundLayer.height;
 
         // create the player sprite    
-        player = this.physics.add.sprite(16, 16, 'wall-b');
-        player.setScale(0.4, 0.4);
-        player.setBounceY(0.3); // our player will bounce from ground
-        player.setCollideWorldBounds(true); // don't go out of the map    
-
-        // player will collide with the level tiles 
-        this.physics.add.collider(player, groundLayer);
+        wallb = this.physics.add.sprite(16, 16, 'wall-b');
+        wallb.setScale(0.4, 0.4);
+        //wallb.setBounceY(0.3); // our player will bounce from ground
+        wallb.setCollideWorldBounds(true); // don't go out of the map    
+        
+        // create the Mecha sprite
+        mecha = this.physics.add.sprite(350, 16, 'mecha');
+        mecha.setScale(0.8, 0.8);
+        //mecha.setBounceY(0.3);
+        mecha.setCollideWorldBounds(true);
+        
+        
+        // define colliders
+        this.physics.add.collider(wallb, groundLayer);
+        this.physics.add.collider(mecha, groundLayer);
+        this.physics.add.overlap(wallb, mecha, this.collectMecha, null, this);
+        
+        player = wallb
+        
 
         // player walk animation
         this.anims.create({
@@ -57,7 +71,8 @@ class Level1 extends Phaser.Scene {
             frameRate: 2,
             repeat: -1
         });
-
+        
+        // key mapping
         cursors = this.input.keyboard.createCursorKeys();
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
@@ -69,26 +84,37 @@ class Level1 extends Phaser.Scene {
         // set background color, so the sky is not black    
         this.cameras.main.setBackgroundColor('#ccccff');
         
+        // initialize mid air jump flag
         this.canMidAirJump = false;
+        
+        // define player state
+        this.playerIs = 'wall-b';
     }
 
     update() {
+        if(this.playerIs == 'mecha') {
+            
+        }
         if (cursors.left.isDown) {
             player.body.setVelocityX(-200); // move left
-            player.anims.play('walk', true); // play walk animation
+            if(player == wallb){
+                player.anims.play('walk', true); // play walk animation
+            }
             player.flipX = true; // flip the sprite to the left
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
                 if(player.body.onFloor()) {
                     player.body.setVelocityY(-270); // jump up
                 } else if(this.canMidAirJump) {
-                    player.body.setVelocityY(-200);
+                    player.body.setVelocityY(-270);
                     this.canMidAirJump = false;
                 }
             }
         }
         else if (cursors.right.isDown) { // if the right arrow key is down
             player.body.setVelocityX(200); // move right
-            player.anims.play('walk', true); // play walk animatio
+            if(player == wallb){
+                player.anims.play('walk', true); // play walk animation
+            }
             player.flipX = false; // use the original sprite looking to the right
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
                 if(player.body.onFloor()) {
@@ -100,7 +126,9 @@ class Level1 extends Phaser.Scene {
             }
         } else {
             player.body.setVelocityX(0);
-            player.anims.play('idle', true);
+            if(player == wallb){
+                player.anims.play('idle', true);
+            }
         }
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
             if(player.body.onFloor()) {
@@ -111,8 +139,20 @@ class Level1 extends Phaser.Scene {
             }
         }
         
+        // reset mid air jump upon hit the ground
         if(player.body.onFloor()) {
              this.canMidAirJump = true;
          }
+    }
+    collectMecha() {
+        console.log('collect!');
+        // make player the mecha
+        player = mecha
+        // update the camera 
+        this.cameras.main.startFollow(player);
+        // disable wallb physics
+        wallb.body.enable = false;
+        // hide wallb
+        wallb.alpha = 0;
     }
 }
