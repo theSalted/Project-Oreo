@@ -13,6 +13,12 @@ class Level1 extends Phaser.Scene {
     }
 
     create() {
+        this.backgroundMusic =  this.sound.add('bgm_level1', {
+            volume: 1,
+            loop: true
+        })
+        this.backgroundMusic.play()
+        
         // load the map 
         map = this.make.tilemap({ key: 'level1' });
 

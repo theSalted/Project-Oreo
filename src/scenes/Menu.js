@@ -4,6 +4,7 @@ class Menu extends Phaser.Scene {
 	}
 	preload() {
         // Will add songs later
+        this.load.audio('bgm_level1', './assets/sound_level1.wav');
 	}
 	create() {		
         let menuConfig = {
