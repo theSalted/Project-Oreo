@@ -150,7 +150,8 @@ class Level1 extends Phaser.Scene {
             // make mech un-collectable once combine
             mecha.collectable = false;
             // play expand animation
-            mecha.anims.play('expand', true)
+            mecha.anims.stop();
+            mecha.anims.play('expand', true);
         }
     }
     
@@ -182,6 +183,7 @@ class Level1 extends Phaser.Scene {
                 // disable mid air jump once performed
                 this.canMidAirJump = false;
                 // reverse animation
+                mecha.anims.stop();
                 mecha.anims.playReverse('expand', true);
             }
         }
