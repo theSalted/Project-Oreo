@@ -69,7 +69,6 @@ class Level1 extends Phaser.Scene {
         // set background color, so the sky is not black    
         this.cameras.main.setBackgroundColor('#ccccff');
         
-        this.canJump = false;
         this.canMidAirJump = false;
     }
 
@@ -79,10 +78,9 @@ class Level1 extends Phaser.Scene {
             player.anims.play('walk', true); // play walk animation
             player.flipX = true; // flip the sprite to the left
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-                if(this.canJump) {
+                if(player.body.onFloor()) {
                     player.body.setVelocityY(-270); // jump up
-                    this.canJump = false;
-                } else if(this.canMidAirJump && !this.canJump) {
+                } else if(this.canMidAirJump) {
                     player.body.setVelocityY(-200);
                     this.canMidAirJump = false;
                 }
@@ -93,10 +91,9 @@ class Level1 extends Phaser.Scene {
             player.anims.play('walk', true); // play walk animatio
             player.flipX = false; // use the original sprite looking to the right
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-                if(this.canJump) {
+                if(player.body.onFloor()) {
                     player.body.setVelocityY(-270); // jump up
-                    this.canJump = false;
-                } else if(this.canMidAirJump && !this.canJump) {
+                } else if(this.canMidAirJump) {
                     player.body.setVelocityY(-200);
                     this.canMidAirJump = false;
                 }
@@ -106,17 +103,15 @@ class Level1 extends Phaser.Scene {
             player.anims.play('idle', true);
         }
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            if(this.canJump) {
+            if(player.body.onFloor()) {
                 player.body.setVelocityY(-270); // jump up
-                this.canJump = false;
-            } else if(this.canMidAirJump && !this.canJump) {
+            } else if(this.canMidAirJump) {
                 player.body.setVelocityY(-200);
                 this.canMidAirJump = false;
             }
         }
         
         if(player.body.onFloor()) {
-             this.canJump = true;
              this.canMidAirJump = true;
          }
     }
