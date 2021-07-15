@@ -74,7 +74,7 @@ class Level1 extends Phaser.Scene {
         // make the camera follow the player
         this.cameras.main.startFollow(player);
 
-        // set background color, so the sky is not black    
+        // set background color, so the sky is not black   
         this.cameras.main.setBackgroundColor('#ccccff');
     }
 
