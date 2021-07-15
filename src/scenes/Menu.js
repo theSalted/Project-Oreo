@@ -3,14 +3,7 @@ class Menu extends Phaser.Scene {
 		super("menuScene");
 	}
 	preload() {
-        // map made with Tiled in JSON format
-        this.load.tilemapTiledJSON('map', 'assets/map.json');
-        // tiles in spritesheet 
-        this.load.spritesheet('tiles', 'assets/tiles.png', {frameWidth: 70, frameHeight: 70});
-        // simple coin image
-        this.load.image('coin', 'assets/coinGold.png');
-        // player animations
-        this.load.atlas('player', 'assets/player.png', 'assets/player.json');
+        // Will add songs later
 	}
 	create() {		
         let menuConfig = {
@@ -44,7 +37,7 @@ class Menu extends Phaser.Scene {
 	}
 	update() {
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            this.scene.play("level1Scene");
+            this.scene.start("level1Scene");
 		}
 	}
 }

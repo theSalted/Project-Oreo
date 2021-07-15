@@ -8,11 +8,23 @@ let config = {
             gravity: { y: 500 }, // will affect our player sprite
         }
     },
-	scene: [Menu]
+	scene: [Menu, Level1, GameOver]
 }
 
 let game = new Phaser.Game(config);
 
+// set UI sizes
+let borderUISize = game.config.height / 15;
+let borderPadding = borderUISize / 3;
+
+var health = 3;
+var p1Score = 0;
+
+var map;
+var player;
+var cursors;
+var groundLayer, coinLayer;
+var text;
 
 // reserve keyboard vars
 let keyLEFT, keyRIGHT, keyUP, keyDOWN, keySPACE; 
