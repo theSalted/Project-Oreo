@@ -82,7 +82,7 @@ class Level1 extends Phaser.Scene {
                 if(this.canJump) {
                     player.body.setVelocityY(-270); // jump up
                     this.canJump = false;
-                } else if(this.canMidAirJump) {
+                } else if(this.canMidAirJump && !this.canJump) {
                     player.body.setVelocityY(-200);
                     this.canMidAirJump = false;
                 }
@@ -96,7 +96,7 @@ class Level1 extends Phaser.Scene {
                 if(this.canJump) {
                     player.body.setVelocityY(-270); // jump up
                     this.canJump = false;
-                } else if(this.canMidAirJump) {
+                } else if(this.canMidAirJump && !this.canJump) {
                     player.body.setVelocityY(-200);
                     this.canMidAirJump = false;
                 }
@@ -109,7 +109,7 @@ class Level1 extends Phaser.Scene {
             if(this.canJump) {
                 player.body.setVelocityY(-270); // jump up
                 this.canJump = false;
-            } else if(this.canMidAirJump) {
+            } else if(this.canMidAirJump && !this.canJump) {
                 player.body.setVelocityY(-200);
                 this.canMidAirJump = false;
             }
