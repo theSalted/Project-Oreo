@@ -47,6 +47,7 @@ class Level1 extends Phaser.Scene {
         mecha.setScale(0.8, 0.8);
         //mecha.setBounceY(0.3);
         mecha.setCollideWorldBounds(true);
+        //mecha.setDragX(0.1);
         
         // initialize mecha collectable flag
         mecha.collectable = true;
@@ -56,6 +57,7 @@ class Level1 extends Phaser.Scene {
         this.physics.add.collider(mecha, groundLayer);
         this.physics.add.overlap(wallb, mecha, this.collectMecha, null, this);
         
+        // make player wallb in the beginning of the game
         player = wallb
         
 
