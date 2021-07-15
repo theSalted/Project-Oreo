@@ -31,7 +31,7 @@ class Level1 extends Phaser.Scene {
         // create the player sprite    
         player = this.physics.add.sprite(16, 16, 'wall-b');
         player.setScale(0.4, 0.4);
-        //player.setBounce(0.2); // our player will bounce from items
+        player.setBounceY(0.3); // our player will bounce from ground
         player.setCollideWorldBounds(true); // don't go out of the map    
 
         // player will collide with the level tiles 
@@ -62,6 +62,9 @@ class Level1 extends Phaser.Scene {
 
         // set background color, so the sky is not black    
         this.cameras.main.setBackgroundColor('#ccccff');
+        
+        this.canJump = false;
+        this.canMidAirJump = false;
     }
 
     update() {
@@ -69,23 +72,46 @@ class Level1 extends Phaser.Scene {
             player.body.setVelocityX(-200); // move left
             player.anims.play('walk', true); // play walk animation
             player.flipX = true; // flip the sprite to the left
-            if ((Phaser.Input.Keyboard.JustDown(keySPACE)) && player.body.onFloor()) {
-                player.body.setVelocityY(-270); // jump up
+            if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+                if(this.canJump) {
+                    player.body.setVelocityY(-270); // jump up
+                    this.canJump = false;
+                } else if(this.canMidAirJump) {
+                    player.body.setVelocityY(-200);
+                    this.canMidAirJump = false;
+                }
             }
         }
         else if (cursors.right.isDown) { // if the right arrow key is down
             player.body.setVelocityX(200); // move right
             player.anims.play('walk', true); // play walk animatio
             player.flipX = false; // use the original sprite looking to the right
-            if ((Phaser.Input.Keyboard.JustDown(keySPACE)) && player.body.onFloor()) {
-                player.body.setVelocityY(-270); // jump up
+            if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+                if(this.canJump) {
+                    player.body.setVelocityY(-270); // jump up
+                    this.canJump = false;
+                } else if(this.canMidAirJump) {
+                    player.body.setVelocityY(-200);
+                    this.canMidAirJump = false;
+                }
             }
         } else {
             player.body.setVelocityX(0);
             player.anims.play('idle', true);
         }
-        if ((Phaser.Input.Keyboard.JustDown(keySPACE)) && player.body.onFloor()) {
-            player.body.setVelocityY(-270); // jump up
+        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+            if(this.canJump) {
+                player.body.setVelocityY(-270); // jump up
+                this.canJump = false;
+            } else if(this.canMidAirJump) {
+                player.body.setVelocityY(-200);
+                this.canMidAirJump = false;
+            }
         }
+        
+        if(player.body.onFloor()) {
+             this.canJump = true;
+             this.canMidAirJump = true;
+         }
     }
 }
