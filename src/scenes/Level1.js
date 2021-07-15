@@ -20,7 +20,8 @@ class Level1 extends Phaser.Scene {
         // create the ground layer
         groundLayer = map.createLayer('Background', groundTiles, 0, 0);
         //player collision
-        groundLayer.setCollisionByProperty({ collides: true });
+        //groundLayer.setCollisionByProperty({ collides: true });
+        groundLayer.setCollisionByExclusion([-1]);
 
         // set the boundaries of our game world
         this.physics.world.bounds.width = groundLayer.width;
@@ -73,7 +74,7 @@ class Level1 extends Phaser.Scene {
             player.anims.play('walk', true); // play walk animation
             player.flipX = true; // flip the sprite to the left
             if (Phaser.Input.Keyboard.JustDown(keySPACE) && player.body.onFloor()) {
-                player.body.setVelocityY(-500); // jump up
+                player.body.setVelocityY(-270); // jump up
             }
         }
         else if (cursors.right.isDown) // if the right arrow key is down
@@ -83,7 +84,7 @@ class Level1 extends Phaser.Scene {
             player.anims.play('walk', true); // play walk animatio
             player.flipX = false; // use the original sprite looking to the right
             if (Phaser.Input.Keyboard.JustDown(keySPACE) && player.body.onFloor()) {
-                player.body.setVelocityY(-500); // jump up
+                player.body.setVelocityY(-270); // jump up
             }
         }
         else {
@@ -92,7 +93,7 @@ class Level1 extends Phaser.Scene {
         }
 
         if (Phaser.Input.Keyboard.JustDown(keySPACE) && player.body.onFloor()) {
-            player.body.setVelocityY(-0.5); // jump up
+            player.body.setVelocityY(-270); // jump up
         }
     }
 }
