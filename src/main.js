@@ -2,7 +2,7 @@ let config = {
 	type: Phaser.CANVAS,
 	width: 640,
 	height: 480,
-	physics: {
+	physics: {                   //arcade physics
         default: 'arcade',
         arcade: {
             gravity: { y: 500 }, // will affect our player sprite
@@ -27,4 +27,4 @@ var groundLayer, coinLayer;
 var text;
 
 // reserve keyboard vars
-let keyLEFT, keyRIGHT, keyUP, keyDOWN, keySPACE; 
+let keyLEFT, keyRIGHT, keySPACE, keyR, keyQ;
