@@ -29,9 +29,7 @@ class Menu extends Phaser.Scene {
 			'Press SPACE to Start', menuConfig).setOrigin(0.5);
 
 		// key mapping
-		keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-		keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-		keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);		
+		keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);		
 	}
 	update() {
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {

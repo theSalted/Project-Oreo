@@ -2,7 +2,7 @@ let config = {
 	type: Phaser.CANVAS,
 	width: 640,
 	height: 480,
-	physics: {                   //arcade physics
+	physics: { //arcade physics
         default: 'arcade',
         arcade: {
             gravity: { y: 500 }, // will affect our player sprite
