@@ -151,7 +151,14 @@ class Level1 extends Phaser.Scene {
     midAirJump() {
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
             if(player.body.onFloor()) {
-                player.body.setVelocityY(-270); // jump up
+                if(player == wallb) {
+                    // wallb jump height
+                    player.body.setVelocityY(-270);// jump up
+                } else if(player == mecha) {
+                    // wallb jump height
+                    player.body.setVelocityY(-300);// jump up
+                }
+                 
             } else if(this.canMidAirJump && player == mecha) {
                 // update wallb position
                 wallb.x = mecha.x;
