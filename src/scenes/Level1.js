@@ -9,6 +9,7 @@ class Level1 extends Phaser.Scene {
         this.load.spritesheet('tiles', 'assets/tiles.png', { frameWidth: 70, frameHeight: 70 });
         // player animations
         this.load.atlas('player', 'assets/player.png', 'assets/player.json');
+        this.load.spritesheet('wall-b', './assets/Wall-b.png', {frameWidth: 56, frameHeight: 68, startFrame: 0, endFrame: 3})
     }
 
     create() {
