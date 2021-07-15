@@ -9,6 +9,7 @@ class Level1 extends Phaser.Scene {
         this.load.image('tiles', 'assets/tiles.png');
         // player animations
         this.load.atlas('player', 'assets/player.png', 'assets/player.json');
+        this.load.spritesheet('wall-b', './assets/wall-b.png', {frameWidth: 56, frameHeight: 68, startFrame: 0, endFrame: 3})
     }
 
     create() {
@@ -28,7 +29,7 @@ class Level1 extends Phaser.Scene {
         this.physics.world.bounds.height = groundLayer.height;
 
         // create the player sprite    
-        player = this.physics.add.sprite(16, 16, 'player');
+        player = this.physics.add.sprite(16, 16, 'wall-b');
         player.setScale(0.4, 0.4);
         //player.setBounce(0.2); // our player will bounce from items
         player.setCollideWorldBounds(true); // don't go out of the map    
@@ -42,15 +43,16 @@ class Level1 extends Phaser.Scene {
         // player walk animation
         this.anims.create({
             key: 'walk',
-            frames: this.anims.generateFrameNames('player', { prefix: 'p1_walk', start: 1, end: 11, zeroPad: 2 }),
+            frames: this.anims.generateFrameNumbers('wall-b', { start:2, end: 3, first: 2}),
             frameRate: 10,
             repeat: -1
         });
-        // idle with only one frame, so repeat is not neaded
+        // player idle animation
         this.anims.create({
             key: 'idle',
-            frames: [{ key: 'player', frame: 'p1_stand' }],
-            frameRate: 10,
+            frames: this.anims.generateFrameNumbers('wall-b', { start:0, end: 1, first: 0}),
+            frameRate: 2,
+            repeat: -1
         });
 
 
