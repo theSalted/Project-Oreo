@@ -55,6 +55,7 @@ class Level1 extends Phaser.Scene {
  
  
     cursors = this.input.keyboard.createCursorKeys();
+    keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
  
     // set bounds so the camera won't go outside the game world
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -72,6 +73,9 @@ class Level1 extends Phaser.Scene {
             player.body.setVelocityX(-200); // move left
             player.anims.play('walk', true); // play walk animation
             player.flipX = true; // flip the sprite to the left
+            if (Phaser.Input.Keyboard.JustDown(keySPACE) && player.body.onFloor()) {
+                player.body.setVelocityY(-500); // jump up
+            }
         }
         else if (cursors.right.isDown) // if the right arrow key is down
         {
@@ -79,14 +83,17 @@ class Level1 extends Phaser.Scene {
             player.body.setVelocityX(200); // move right
             player.anims.play('walk', true); // play walk animatio
             player.flipX = false; // use the original sprite looking to the right
-        }
-        else if ((cursors.space.isDown || cursors.up.isDown) && player.body.onFloor())
-        {
-            player.body.setVelocityY(-500); // jump up
+            if (Phaser.Input.Keyboard.JustDown(keySPACE) && player.body.onFloor()) {
+                player.body.setVelocityY(-500); // jump up
+            }
         }
         else {
             player.body.setVelocityX(0);
             player.anims.play('idle', true);
+        }
+        
+        if (Phaser.Input.Keyboard.JustDown(keySPACE) && player.body.onFloor()) {
+            player.body.setVelocityY(-500); // jump up
         }
     }
 }
