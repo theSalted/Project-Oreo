@@ -10,7 +10,7 @@ class Level1 extends Phaser.Scene {
         // player animations
         this.load.atlas('player', 'assets/player.png', 'assets/player.json');
         // load mecha sprite
-        this.load.image('mecha', './assets/wall-b-mecha.png')
+        this.load.spritesheet('mecha', './assets/wall-b-mecha.png', {frameWidth: 57, frameHeight: 81, startFrame: 0, endFrame: 3})
         this.load.spritesheet('wall-b', './assets/wall-b.png', {frameWidth: 56, frameHeight: 68, startFrame: 0, endFrame: 3})
     }
 
@@ -59,19 +59,27 @@ class Level1 extends Phaser.Scene {
         player = wallb
         
 
-        // player walk animation
+        // wallb walk animation
         this.anims.create({
             key: 'walk',
             frames: this.anims.generateFrameNumbers('wall-b', { start:2, end: 3, first: 2}),
             frameRate: 10,
             repeat: -1
         });
-        // player idle animation
+        // wallb idle animation
         this.anims.create({
             key: 'idle',
             frames: this.anims.generateFrameNumbers('wall-b', { start:0, end: 1, first: 0}),
             frameRate: 2,
             repeat: -1
+        });
+        
+        //mecha expand animation
+        this.anims.create({
+            key: 'expand',
+            frames: this.anims.generateFrameNumbers('mecha', { start:0, end: 3, first: 0}),
+            frameRate: 6,
+            repeat: 0
         });
         
         // key mapping
@@ -88,15 +96,9 @@ class Level1 extends Phaser.Scene {
         
         // initialize mid air jump flag
         this.canMidAirJump = false;
-        
-        // define player state
-        this.playerIs = 'wall-b';
     }
 
     update() {
-        if(this.playerIs == 'mecha') {
-            
-        }
         if (cursors.left.isDown) {
             player.body.setVelocityX(-200); // move left
             if(player == wallb){
@@ -132,7 +134,7 @@ class Level1 extends Phaser.Scene {
         }
     }
     collectMecha() {
-        console.log('collect!');
+        console.log('collect!!');
         // combine mech and wallb
         if(mecha.collectable) {
             // make player the mecha
@@ -145,6 +147,8 @@ class Level1 extends Phaser.Scene {
             wallb.alpha = 0;
             // make mech un-collectable once combine
             mecha.collectable = false;
+            // play expand animation
+            mecha.anims.play('expand', true)
         }
     }
     
@@ -155,7 +159,7 @@ class Level1 extends Phaser.Scene {
                     // wallb jump height
                     player.body.setVelocityY(-270);// jump up
                 } else if(player == mecha) {
-                    // wallb jump height
+                    // mecha jump height
                     player.body.setVelocityY(-300);// jump up
                 }
                  
@@ -175,6 +179,8 @@ class Level1 extends Phaser.Scene {
                 player.body.setVelocityY(-270);
                 // disable mid air jump once performed
                 this.canMidAirJump = false;
+                // reverse animation
+                mecha.anims.playReverse('expand', true);
             }
         }
     }
