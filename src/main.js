@@ -28,8 +28,17 @@ var mecha;
 var cursors;
 var groundLayer;
 var conveyorBelt;
+var key;
+var keyCount;
 var text;
 var door;
 
+let textConfig = {
+	fontFamily: 'Impact',
+	fontSize: '40px',
+	color: '#FFFFFF',
+	align: 'right',
+	fixedWidth: 100
+}
 // reserve keyboard vars
 let keyLEFT, keyRIGHT, keySPACE, keyR, keyQ;

@@ -8,6 +8,7 @@ class Level2 extends Phaser.Scene {
         this.load.tilemapTiledJSON('level', './assets/test1.json');
         // tiles in spritesheet 
         this.load.image('tiles', './assets/tiles.png');
+        this.load.image('key', './assets/key.png');
         // player animations
         this.load.atlas('player', 'assets/player.png', 'assets/player.json');
         // load mecha sprite
@@ -61,12 +62,22 @@ class Level2 extends Phaser.Scene {
         mecha.body.setSize(20, 20)
         mecha.body.setOffset(18.5, 61)
         
+        // create key sprite
+        key = this.physics.add.sprite(900, 360, 'key')
+        key.setDragX(100);
+        
         // define colliders
         this.physics.add.collider(wallb, groundLayer);
-        this.physics.add.collider(mecha, groundLayer);
         this.physics.add.collider(wallb, conveyorBelt, this.onConveyorBelt);
-        this.physics.add.collider(mecha, conveyorBelt, this.onConveyorBelt);
         this.physics.add.overlap(wallb, mecha, this.collectMecha, null, this);
+        
+        this.physics.add.collider(mecha, groundLayer);
+        this.physics.add.collider(mecha, conveyorBelt, this.onConveyorBelt);
+        
+        this.physics.add.collider(key, groundLayer);
+        this.physics.add.collider(key, conveyorBelt);
+        this.physics.add.collider(key, wallb, this.collectKey);
+        this.physics.add.collider(key, mecha, this.collectKey);
         wallb.setDragX(400);
         
         // make player wallb in the beginning of the game
@@ -101,6 +112,12 @@ class Level2 extends Phaser.Scene {
             frameRate: 6,
             repeat: 0
         });
+        
+        // initialize keyCount
+        keyCount = 0;
+        
+        // display score
+        text = this.add.text(100, 100, keyCount, textConfig);
         
         // key mapping
         cursors = this.input.keyboard.createCursorKeys();
@@ -216,5 +233,10 @@ class Level2 extends Phaser.Scene {
         console.log('touch')
         //console.log(obj.body.velocity.x)
         obj.body.setVelocityX(200);
+    }
+    collectKey(key) {
+        key.disableBody(true, true);
+        keyCount += 1;
+        text.text = keyCount;
     }
 }
