@@ -1,14 +1,14 @@
 let config = {
 	type: Phaser.CANVAS,
-	width: 640,
-	height: 400,
+	width: 1000,
+	height: 600,
 	physics: { //arcade physics
         default: 'arcade',
         arcade: {
             gravity: { y: 500 }, // will affect our player sprite
         }
     },
-	scene: [Menu, Level1, GameOver]
+	scene: [Menu, Level1, Level2, GameOver]
 }
 
 let game = new Phaser.Game(config);
