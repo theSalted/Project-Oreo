@@ -5,7 +5,8 @@ let config = {
 	physics: { //arcade physics
         default: 'arcade',
         arcade: {
-            gravity: { y: 500 }, // will affect our player sprite
+            gravity: { y: 500 },
+			debug: true // will affect our player sprite
         }
     },
 	scene: [Menu, Level1, Level2, GameOver]
