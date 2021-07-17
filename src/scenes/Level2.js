@@ -47,12 +47,13 @@ class Level2 extends Phaser.Scene {
         //wallb.setBounceY(0.3); // our player will bounce from ground
         wallb.setCollideWorldBounds(true); // don't go out of the map    
         
+        
         // create the Mecha sprite
         mecha = this.physics.add.sprite(500, 100, 'mecha');
         mecha.setScale(0.8, 0.8);
         //mecha.setBounceY(0.3);
         mecha.setCollideWorldBounds(true);
-        mecha.setDragX(95);
+        mecha.setDragX(400);
         
         // initialize mecha collectable flag
         mecha.collectable = true;
@@ -66,11 +67,11 @@ class Level2 extends Phaser.Scene {
         this.physics.add.collider(wallb, conveyorBelt, this.onConveyorBelt);
         this.physics.add.collider(mecha, conveyorBelt, this.onConveyorBelt);
         this.physics.add.overlap(wallb, mecha, this.collectMecha, null, this);
+        wallb.setDragX(400);
         
         // make player wallb in the beginning of the game
         player = wallb
-        
-
+    
         // wallb walk animation
         this.anims.create({
             key: 'walk',
@@ -138,7 +139,7 @@ class Level2 extends Phaser.Scene {
             player.flipX = false; // use the original sprite looking to the right
             this.midAirJump() 
         } else {
-            player.body.setVelocityX(0);
+            //player.body.setVelocityX(0);
             if(player == wallb){
                 player.anims.play('idle', true);
             }
@@ -213,7 +214,7 @@ class Level2 extends Phaser.Scene {
     }
     onConveyorBelt(obj){
         console.log('touch')
-        obj.body.setVelocityX(100);
-        player.body.setVelocityX(200);
+        //console.log(obj.body.velocity.x)
+        obj.body.setVelocityX(200);
     }
 }
