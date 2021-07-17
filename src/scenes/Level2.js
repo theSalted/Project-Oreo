@@ -48,7 +48,7 @@ class Level2 extends Phaser.Scene {
         mecha.setScale(0.8, 0.8);
         //mecha.setBounceY(0.3);
         mecha.setCollideWorldBounds(true);
-        mecha.setDragX(50);
+        mecha.setDragX(80);
         
         // initialize mecha collectable flag
         mecha.collectable = true;
