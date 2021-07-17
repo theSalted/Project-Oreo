@@ -6,7 +6,7 @@ let config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 500 },
-			debug: true // will affect our player sprite
+			//debug: true // will affect our player sprite
         }
     },
 	scene: [Menu, Level1, Level2, GameOver]

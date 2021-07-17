@@ -52,6 +52,9 @@ class Level2 extends Phaser.Scene {
         
         // initialize mecha collectable flag
         mecha.collectable = true;
+        // modify mecha hitbox while collapse
+        mecha.body.setSize(20, 20)
+        mecha.body.setOffset(18.5, 61)
         
         // define colliders
         this.physics.add.collider(wallb, groundLayer);
@@ -147,6 +150,7 @@ class Level2 extends Phaser.Scene {
         console.log('collect!!');
         // combine mech and wallb
         if(mecha.collectable) {
+            mecha.body.setSize(57, 81)
             // make player the mecha
             player = mecha
             // update the camera 
@@ -193,6 +197,9 @@ class Level2 extends Phaser.Scene {
                 // reverse animation
                 mecha.anims.stop();
                 mecha.anims.playReverse('collapse', true);
+                mecha.setVelocityY(0);
+                mecha.body.setSize(20, 20)
+                mecha.body.setOffset(18.5, 61)
             }
         }
     }
