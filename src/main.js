@@ -38,7 +38,6 @@ let textConfig = {
 	fontSize: '40px',
 	color: '#FFFFFF',
 	align: 'right',
-	fixedWidth: 100
 }
 // reserve keyboard vars
 let keyLEFT, keyRIGHT, keySPACE, keyR, keyQ;
