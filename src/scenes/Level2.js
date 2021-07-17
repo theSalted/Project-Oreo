@@ -117,7 +117,7 @@ class Level2 extends Phaser.Scene {
                 player.body.setVelocityX(-200); // move left
                 wallb.anims.play('walk', true); // play walk animation
             } else if(player == mecha) {
-                player.body.setVelocityX(-100); // move left
+                player.body.setVelocityX(-150); // move left
             }
             player.flipX = true; // flip the sprite to the left
             this.midAirJump() 
@@ -127,7 +127,7 @@ class Level2 extends Phaser.Scene {
                 player.body.setVelocityX(200); // move right
                 wallb.anims.play('walk', true); // play walk animation
             }else if(player == mecha) {
-                player.body.setVelocityX(100); // move left
+                player.body.setVelocityX(150); // move left
             }
             player.flipX = false; // use the original sprite looking to the right
             this.midAirJump() 
@@ -151,7 +151,6 @@ class Level2 extends Phaser.Scene {
         }
     }
     collectMecha() {
-        console.log('collect!!');
         // combine mech and wallb
         if(mecha.collectable) {
             mecha.body.setSize(57, 81)
@@ -195,7 +194,7 @@ class Level2 extends Phaser.Scene {
                 // update the camera 
                 this.cameras.main.startFollow(player);
                 // mid air jump
-                player.body.setVelocityY(-270);
+                player.body.setVelocityY(-200);
                 // disable mid air jump once performed
                 this.canMidAirJump = false;
                 // reverse animation
