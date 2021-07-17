@@ -5,9 +5,9 @@ class Level2 extends Phaser.Scene {
     preload() {
         console.log('level 2')
         // map made with Tiled in JSON format
-        this.load.tilemapTiledJSON('level1', 'assets/map.json');
+        this.load.tilemapTiledJSON('level', './assets/test1.json');
         // tiles in spritesheet 
-        this.load.image('tiles', 'assets/tiles.png');
+        this.load.image('tiles', './assets/tiles.png');
         // player animations
         this.load.atlas('player', 'assets/player.png', 'assets/player.json');
         // load mecha sprite
@@ -23,7 +23,7 @@ class Level2 extends Phaser.Scene {
         this.backgroundMusic.play()
         
         // load the map 
-        map = this.make.tilemap({ key: 'level1' });
+        map = this.make.tilemap({ key: 'level' });
         
         // tiles for the ground layer
         var groundTiles = map.addTilesetImage('tileset', 'tiles', 16, 16);
