@@ -38,17 +38,17 @@ class Level2 extends Phaser.Scene {
         this.physics.world.bounds.height = groundLayer.height;
 
         // create the player sprite    
-        wallb = this.physics.add.sprite(16, 16, 'wall-b');
+        wallb = this.physics.add.sprite(16, 100, 'wall-b');
         wallb.setScale(0.4, 0.4);
         //wallb.setBounceY(0.3); // our player will bounce from ground
         wallb.setCollideWorldBounds(true); // don't go out of the map    
         
         // create the Mecha sprite
-        mecha = this.physics.add.sprite(500, 16, 'mecha');
+        mecha = this.physics.add.sprite(500, 100, 'mecha');
         mecha.setScale(0.8, 0.8);
         //mecha.setBounceY(0.3);
         mecha.setCollideWorldBounds(true);
-        //mecha.setDragX(0.1);
+        mecha.setDragX(50);
         
         // initialize mecha collectable flag
         mecha.collectable = true;
@@ -113,17 +113,21 @@ class Level2 extends Phaser.Scene {
 
     update() {
         if (cursors.left.isDown) {
-            player.body.setVelocityX(-200); // move left
             if(player == wallb){
-                player.anims.play('walk', true); // play walk animation
+                player.body.setVelocityX(-200); // move left
+                wallb.anims.play('walk', true); // play walk animation
+            } else if(player == mecha) {
+                player.body.setVelocityX(-100); // move left
             }
             player.flipX = true; // flip the sprite to the left
             this.midAirJump() 
         }
         else if (cursors.right.isDown) { // if the right arrow key is down
-            player.body.setVelocityX(200); // move right
             if(player == wallb){
-                player.anims.play('walk', true); // play walk animation
+                player.body.setVelocityX(200); // move right
+                wallb.anims.play('walk', true); // play walk animation
+            }else if(player == mecha) {
+                player.body.setVelocityX(100); // move left
             }
             player.flipX = false; // use the original sprite looking to the right
             this.midAirJump() 
@@ -197,9 +201,9 @@ class Level2 extends Phaser.Scene {
                 // reverse animation
                 mecha.anims.stop();
                 mecha.anims.playReverse('collapse', true);
-                mecha.setVelocityY(0);
                 mecha.body.setSize(20, 20)
                 mecha.body.setOffset(18.5, 61)
+                mecha.body.setVelocityY(0);
             }
         }
     }
