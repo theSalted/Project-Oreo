@@ -27,6 +27,7 @@ var wallb;
 var mecha;
 var cursors;
 var groundLayer;
+var conveyorBelt;
 var text;
 var door;
 

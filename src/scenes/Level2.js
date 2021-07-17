@@ -32,6 +32,10 @@ class Level2 extends Phaser.Scene {
         //player collision
         //groundLayer.setCollisionByProperty({ collides: true });
         groundLayer.setCollisionByExclusion(-1, true);
+        
+        // create the conveyorBelt layer 
+        conveyorBelt = map.createLayer('ConveyorBelt', groundTiles, 0, 0)
+        conveyorBelt.setCollisionByExclusion(-1, true);
 
         // set the boundaries of our game world
         this.physics.world.bounds.width = groundLayer.width;
@@ -59,6 +63,8 @@ class Level2 extends Phaser.Scene {
         // define colliders
         this.physics.add.collider(wallb, groundLayer);
         this.physics.add.collider(mecha, groundLayer);
+        this.physics.add.collider(wallb, conveyorBelt);
+        this.physics.add.collider(mecha, conveyorBelt, this.onConveyorBelt);
         this.physics.add.overlap(wallb, mecha, this.collectMecha, null, this);
         
         // make player wallb in the beginning of the game
@@ -169,7 +175,6 @@ class Level2 extends Phaser.Scene {
             mecha.anims.play('expand', true);
         }
     }
-    
     midAirJump() {
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
             if(player.body.onFloor()) {
@@ -205,5 +210,8 @@ class Level2 extends Phaser.Scene {
                 mecha.body.setVelocityY(0);
             }
         }
+    }
+    onConveyorBelt(){
+        console.log('touch')
     }
 }

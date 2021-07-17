@@ -22,7 +22,7 @@
          "encoding":"base64",
          "height":40,
          "id":6,
-         "name":"Tile Layer 2",
+         "name":"ConveyorBelt",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
