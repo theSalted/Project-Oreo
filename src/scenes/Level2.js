@@ -84,6 +84,13 @@ class Level2 extends Phaser.Scene {
             frameRate: 6,
             repeat: 0
         });
+        //mecha expand animation
+        this.anims.create({
+            key: 'collapse',
+            frames: this.anims.generateFrameNumbers('mecha', { start:0, end: 2, first: 0}),
+            frameRate: 6,
+            repeat: 0
+        });
         
         // key mapping
         cursors = this.input.keyboard.createCursorKeys();
@@ -185,7 +192,7 @@ class Level2 extends Phaser.Scene {
                 this.canMidAirJump = false;
                 // reverse animation
                 mecha.anims.stop();
-                mecha.anims.playReverse('expand', true);
+                mecha.anims.playReverse('collapse', true);
             }
         }
     }
