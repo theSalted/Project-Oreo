@@ -33,8 +33,8 @@ class Menu extends Phaser.Scene {
 		keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);		
 	}
 	update() {
-        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            this.scene.start("level2Scene");
-		}
-	}
+                if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+                    this.scene.start("level2Scene");
+        	}
+        }
 }

@@ -9,6 +9,7 @@ class Level2 extends Phaser.Scene {
         // tiles in spritesheet 
         this.load.image('tiles', './assets/tiles.png');
         this.load.image('key', './assets/key.png');
+        this.load.image('flag', './assets/flag.png');
         // player animations
         this.load.atlas('player', 'assets/player.png', 'assets/player.json');
         // load mecha sprite
@@ -66,10 +67,14 @@ class Level2 extends Phaser.Scene {
         key = this.physics.add.sprite(900, 360, 'key')
         key.setDragX(100);
         
+        door = this.physics.add.sprite(1500, 400, 'flag')
+        
         // define colliders
         this.physics.add.collider(wallb, groundLayer);
         this.physics.add.collider(wallb, conveyorBelt, this.onConveyorBelt);
         this.physics.add.overlap(wallb, mecha, this.collectMecha, null, this);
+        // make player wallb in the beginning of the game
+        player = wallb
         
         this.physics.add.collider(mecha, groundLayer);
         this.physics.add.collider(mecha, conveyorBelt, this.onConveyorBelt);
@@ -80,8 +85,10 @@ class Level2 extends Phaser.Scene {
         this.physics.add.collider(key, mecha, this.collectKey);
         wallb.setDragX(400);
         
-        // make player wallb in the beginning of the game
-        player = wallb
+        this.physics.add.collider(door, groundLayer);
+        this.physics.add.collider(door, conveyorBelt);
+        this.physics.add.overlap(door, mecha, this.reachFlag, null, this);
+        this.physics.add.overlap(door, wallb, this.reachFlag, null, this);
     
         // wallb walk animation
         this.anims.create({
@@ -232,6 +239,8 @@ class Level2 extends Phaser.Scene {
                 mecha.body.setOffset(18.5, 61)
                 mecha.body.setVelocityY(0);
             }
+            console.log(player.x)
+            console.log(player.y)
         }
     }
     onConveyorBelt(obj){
@@ -243,5 +252,13 @@ class Level2 extends Phaser.Scene {
         key.disableBody(true);
         keyCount += 1;
         //text.text = keyCount;
+    }
+    reachFlag() {
+        // restart the scene once condition is met
+        console.log('reach')
+        if (keyCount == 1 && player == mecha) {
+            this.scene.start("level2Scene");
+            this.backgroundMusic.stop();
+        }
     }
 }
