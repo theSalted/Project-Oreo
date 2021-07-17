@@ -42,14 +42,14 @@ class Level2 extends Phaser.Scene {
         this.physics.world.bounds.height = groundLayer.height;
 
         // create the player sprite    
-        wallb = this.physics.add.sprite(16, 100, 'wall-b');
+        wallb = this.physics.add.sprite(16, 500, 'wall-b');
         wallb.setScale(0.4, 0.4);
         //wallb.setBounceY(0.3); // our player will bounce from ground
         wallb.setCollideWorldBounds(true); // don't go out of the map    
         
         
         // create the Mecha sprite
-        mecha = this.physics.add.sprite(500, 100, 'mecha');
+        mecha = this.physics.add.sprite(250, 500, 'mecha');
         mecha.setScale(0.8, 0.8);
         //mecha.setBounceY(0.3);
         mecha.setCollideWorldBounds(true);
