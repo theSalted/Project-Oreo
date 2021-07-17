@@ -177,7 +177,7 @@ class Level2 extends Phaser.Scene {
             } else if(this.canMidAirJump && player == mecha) {
                 // update wallb position
                 wallb.x = mecha.x;
-                wallb.y = mecha.y - 20;
+                wallb.y = mecha.y - 30;
                 // re-enable wallb physics
                 wallb.body.enable = true;
                 // make wallb reaper
