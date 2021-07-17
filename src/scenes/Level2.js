@@ -116,8 +116,8 @@ class Level2 extends Phaser.Scene {
         // initialize keyCount
         keyCount = 0;
         
-        // display score
-        text = this.add.text(100, 100, keyCount, textConfig);
+        // display keyCount
+        //text = this.add.text(100, 100, keyCount, textConfig);
         
         // key mapping
         cursors = this.input.keyboard.createCursorKeys();
@@ -172,6 +172,11 @@ class Level2 extends Phaser.Scene {
         // mech can only be collect after touching the ground
         if(player == wallb && mecha.body.onFloor()) {
             mecha.collectable = true;
+        }
+        
+        if(keyCount == 1){
+            key.x = player.x
+            key.y = player.y - 50
         }
     }
     collectMecha() {
@@ -235,8 +240,8 @@ class Level2 extends Phaser.Scene {
         obj.body.setVelocityX(200);
     }
     collectKey(key) {
-        key.disableBody(true, true);
+        key.disableBody(true);
         keyCount += 1;
-        text.text = keyCount;
+        //text.text = keyCount;
     }
 }
