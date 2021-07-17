@@ -52,7 +52,7 @@ class Level2 extends Phaser.Scene {
         mecha.setScale(0.8, 0.8);
         //mecha.setBounceY(0.3);
         mecha.setCollideWorldBounds(true);
-        mecha.setDragX(80);
+        mecha.setDragX(95);
         
         // initialize mecha collectable flag
         mecha.collectable = true;
@@ -63,7 +63,7 @@ class Level2 extends Phaser.Scene {
         // define colliders
         this.physics.add.collider(wallb, groundLayer);
         this.physics.add.collider(mecha, groundLayer);
-        this.physics.add.collider(wallb, conveyorBelt);
+        this.physics.add.collider(wallb, conveyorBelt, this.onConveyorBelt);
         this.physics.add.collider(mecha, conveyorBelt, this.onConveyorBelt);
         this.physics.add.overlap(wallb, mecha, this.collectMecha, null, this);
         
@@ -211,7 +211,9 @@ class Level2 extends Phaser.Scene {
             }
         }
     }
-    onConveyorBelt(){
+    onConveyorBelt(obj){
         console.log('touch')
+        obj.body.setVelocityX(100);
+        player.body.setVelocityX(200);
     }
 }
