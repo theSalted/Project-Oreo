@@ -55,6 +55,9 @@ class Level2 extends Phaser.Scene {
         greenButton = map.createLayer('ButtonGreen', groundTiles, 0, 0);
         greenButton.setCollisionByExclusion(-1, true);
         
+        //create lava layer
+        lava = map.createLayer('Lava', groundTiles, 0, 80);
+        greenButton.setCollisionByExclusion(-1, true);
 
         // set the boundaries of our game world
         this.physics.world.bounds.width = groundLayer.width;
@@ -206,6 +209,9 @@ class Level2 extends Phaser.Scene {
         bdIsActive = false;
         gdIsActive = false;
         
+        // initialize lava rise flag
+        this.lavaRise = true;
+        
     }
 
     update() {
@@ -309,6 +315,21 @@ class Level2 extends Phaser.Scene {
         }
         bdIsActive = false;
         gdIsActive = false;
+        
+        console.log(lava.y)
+        if (this.lavaRise) {
+            lava.y -= 0.2;
+        } else {
+            lava.y += 0.2;
+        }
+        if (lava.y >= 100) {
+            this.lavaRise = true;
+        } 
+        if (lava.y <= 0) {
+            this.lavaRise = false;
+        }
+        
+        
     }
     collectMecha() {
         // combine mech and wallb
