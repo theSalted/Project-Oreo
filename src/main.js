@@ -44,6 +44,7 @@ var text;
 var door;
 var bdIsActive;
 var gdIsActive;
+var restart;
 
 let textConfig = {
 	fontFamily: 'Impact',
