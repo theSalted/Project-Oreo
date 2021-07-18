@@ -5,7 +5,7 @@ class Level2 extends Phaser.Scene {
     preload() {
         console.log('level 2')
         // map made with Tiled in JSON format
-        this.load.tilemapTiledJSON('level', './assets/test1.json');
+        this.load.tilemapTiledJSON('level', './assets/level1.json');
         // tiles in spritesheet 
         this.load.image('tiles', './assets/tiles.png');
         this.load.image('key', './assets/key.png');
@@ -36,8 +36,12 @@ class Level2 extends Phaser.Scene {
         groundLayer.setCollisionByExclusion(-1, true);
         
         // create the conveyorBelt layer 
-        conveyorBelt = map.createLayer('ConveyorBelt', groundTiles, 0, 0)
+        conveyorBelt = map.createLayer('ConveyorBelt', groundTiles, 0, 0);
         conveyorBelt.setCollisionByExclusion(-1, true);
+        
+        //create blue wall layerDoorBlue
+        blueDoor = map.createLayer('DoorBlue', groundTiles, 0, 0);
+        blueDoor.setCollisionByExclusion(-1, true);
 
         // set the boundaries of our game world
         this.physics.world.bounds.width = groundLayer.width;
@@ -51,7 +55,7 @@ class Level2 extends Phaser.Scene {
         
         
         // create the Mecha sprite
-        mecha = this.physics.add.sprite(250, 500, 'mecha');
+        mecha = this.physics.add.sprite(16, 400, 'mecha');
         mecha.setScale(0.8, 0.8);
         //mecha.setBounceY(0.3);
         mecha.setCollideWorldBounds(true);
@@ -64,20 +68,22 @@ class Level2 extends Phaser.Scene {
         mecha.body.setOffset(18.5, 61)
         
         // create key sprite
-        key = this.physics.add.sprite(900, 360, 'key')
+        key = this.physics.add.sprite(700, 320, 'key')
         key.setDragX(100);
         
-        door = this.physics.add.sprite(1500, 400, 'flag')
+        door = this.physics.add.sprite(2180, 430, 'flag')
         
         // define colliders
         this.physics.add.collider(wallb, groundLayer);
         this.physics.add.collider(wallb, conveyorBelt, this.onConveyorBelt);
         this.physics.add.overlap(wallb, mecha, this.collectMecha, null, this);
+        this.physics.add.collider(wallb, blueDoor);
         // make player wallb in the beginning of the game
         player = wallb
         
         this.physics.add.collider(mecha, groundLayer);
         this.physics.add.collider(mecha, conveyorBelt, this.onConveyorBelt);
+        this.blueCollider =  this.physics.add.collider(mecha, blueDoor);
         
         this.physics.add.collider(key, groundLayer);
         this.physics.add.collider(key, conveyorBelt);
@@ -185,6 +191,12 @@ class Level2 extends Phaser.Scene {
             key.x = player.x
             key.y = player.y - 50
         }
+        
+        if (player == mecha) {
+            this.blueCollider.active = true;
+        } else {
+            this.blueCollider.active = false;
+        }
     }
     collectMecha() {
         // combine mech and wallb
@@ -235,8 +247,8 @@ class Level2 extends Phaser.Scene {
                 // reverse animation
                 mecha.anims.stop();
                 mecha.anims.playReverse('collapse', true);
-                mecha.body.setSize(20, 20)
-                mecha.body.setOffset(18.5, 61)
+                mecha.body.setSize(57, 20)
+                mecha.body.setOffset(0, 61)
                 mecha.body.setVelocityY(0);
             }
             console.log(player.x)
