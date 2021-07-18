@@ -81,11 +81,14 @@ class Level2 extends Phaser.Scene {
         mecha.body.setOffset(18.5, 61)
         
         // create key sprite
-        key = this.physics.add.sprite(700, 320, 'key')
+        key = this.physics.add.sprite(700, 320, 'key');
         key.setDragX(100);
         
-        key1 = this.physics.add.sprite(1470, 200, 'key')
+        key1 = this.physics.add.sprite(1470, 200, 'key');
         key1.setDragX(100);
+        
+        key2 = this.physics.add.sprite(1920, 550, 'key');
+        key2.setDragX(100);
         
         keyIcon = this.add.image(0, 0, 'key');
         keyIcon1 = this.add.image(0, 0, 'key');
@@ -102,6 +105,7 @@ class Level2 extends Phaser.Scene {
         this.physics.add.overlap(wallb, mecha, this.collectMecha, null, this);
         // make player wallb in the beginning of the game
         player = wallb
+        wallb.setDragX(400);
         
         this.physics.add.collider(mecha, groundLayer);
         this.physics.add.collider(mecha, conveyorBelt, this.onConveyorBelt);
@@ -110,13 +114,16 @@ class Level2 extends Phaser.Scene {
         this.physics.add.collider(key, conveyorBelt, this.onConveyorBelt);
         this.physics.add.collider(key, wallb, this.collectKey);
         this.physics.add.collider(key, mecha, this.collectKey);
-        wallb.setDragX(400);
         
         this.physics.add.collider(key1, groundLayer);
         this.physics.add.collider(key1, conveyorBelt, this.onConveyorBelt);
         this.physics.add.collider(key1, wallb, this.collectKey);
         this.physics.add.collider(key1, mecha, this.collectKey);
-        wallb.setDragX(400);
+        
+        this.physics.add.collider(key2, groundLayer);
+        this.physics.add.collider(key2, conveyorBelt, this.onConveyorBelt);
+        this.physics.add.collider(key2, wallb, this.collectKey);
+        this.physics.add.collider(key2, mecha, this.collectKey)
         
         this.physics.add.collider(door, groundLayer);
         this.physics.add.collider(door, conveyorBelt);
@@ -135,10 +142,12 @@ class Level2 extends Phaser.Scene {
         this.BDMechaC =  this.physics.add.collider(blueDoor, mecha);
         this.BDKeyC =  this.physics.add.collider(blueDoor, key);
         this.BDKey1C =  this.physics.add.collider(blueDoor, key1);
+        this.BDKey2C =  this.physics.add.collider(blueDoor, key2);
         
         this.GDMechaC = this.physics.add.collider(greenDoor, mecha);
         this.GDKeyC =  this.physics.add.collider(greenDoor, key);
         this.GDKey1C =  this.physics.add.collider(greenDoor, key1);
+        this.GDKey2C =  this.physics.add.collider(greenDoor, key2);
         
     
         // wallb walk animation
@@ -279,20 +288,24 @@ class Level2 extends Phaser.Scene {
             this.BDMechaC.active = false;
             this.BDKeyC.active = false;
             this.BDKey1C.active = false;
+            this.BDKey2C.active = false;
         } else {
             this.BDWallBC.active = true;
             this.BDKeyC.active = true;
             this.BDKey1C.active = true;
+            this.BDKey2C.active = true;
         }
         
         if (gdIsActive) {
             this.GDMechaC.active = false;
             this.GDKeyC.active = false;
             this.GDKey1C.active = false;
+            this.GDKey2C.active = false;
         } else {
             this.GDMechaC.active = true;
             this.GDKeyC.active = true;
             this.GDKey1C.active = true;
+            this.GDKey2C.active = true;
         }
         bdIsActive = false;
         gdIsActive = false;
@@ -366,7 +379,7 @@ class Level2 extends Phaser.Scene {
     reachFlag() {
         // restart the scene once condition is met
         //console.log('reach')
-        if (keyCount == 1 && player == mecha) {
+        if (keyCount == 3 && player == mecha) {
             this.scene.start("level2Scene");
             this.backgroundMusic.stop();
         }
