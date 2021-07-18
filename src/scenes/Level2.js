@@ -39,9 +39,22 @@ class Level2 extends Phaser.Scene {
         conveyorBelt = map.createLayer('ConveyorBelt', groundTiles, 0, 0);
         conveyorBelt.setCollisionByExclusion(-1, true);
         
-        //create blue wall layerDoorBlue
+        //create blue door layer
         blueDoor = map.createLayer('DoorBlue', groundTiles, 0, 0);
         blueDoor.setCollisionByExclusion(-1, true);
+        
+        //create green wall layer
+        greenDoor = map.createLayer('DoorGreen', groundTiles, 0, 0);
+        greenDoor.setCollisionByExclusion(-1, true);
+        
+        //create ButtonBlue layer
+        blueButton = map.createLayer('ButtonBlue', groundTiles, 0, 0);
+        blueButton.setCollisionByExclusion(-1, true);
+        
+        //create ButtonGreen layer
+        blueButton = map.createLayer('ButtonGreen', groundTiles, 0, 0);
+        blueButton.setCollisionByExclusion(-1, true);
+        
 
         // set the boundaries of our game world
         this.physics.world.bounds.width = groundLayer.width;
