@@ -141,7 +141,7 @@ class Level2 extends Phaser.Scene {
         this.physics.add.collider(greenButton, wallb, this.onGB);
         
         this.physics.add.collider(lava, wallb, this.touchLava);
-        this.physics.add.collider(lava, mecha);
+        this.LavaMechaC = this.physics.add.collider(lava, mecha);
         
         // collider for doors
         this.BDWallBC = this.physics.add.collider(blueDoor, wallb);
@@ -290,8 +290,10 @@ class Level2 extends Phaser.Scene {
         
         if (player == mecha) {
             this.BDMechaC.active = true;
+            this.LavaMechaC.active = false;
         } else {
             this.BDMechaC.active = false;
+            this.LavaMechaC.active = true;
         }
         
         if (bdIsActive) {
