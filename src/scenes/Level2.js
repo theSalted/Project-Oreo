@@ -84,6 +84,16 @@ class Level2 extends Phaser.Scene {
         key = this.physics.add.sprite(700, 320, 'key')
         key.setDragX(100);
         
+        key1 = this.physics.add.sprite(1470, 200, 'key')
+        key1.setDragX(100);
+        
+        keyIcon = this.add.image(0, 0, 'key');
+        keyIcon1 = this.add.image(0, 0, 'key');
+        keyIcon2 = this.add.image(0, 0, 'key');
+        keyIcon.alpha = 0
+        keyIcon1.alpha = 0
+        keyIcon2.alpha = 0
+        
         door = this.physics.add.sprite(2180, 430, 'flag')
         
         // define colliders
@@ -97,9 +107,15 @@ class Level2 extends Phaser.Scene {
         this.physics.add.collider(mecha, conveyorBelt, this.onConveyorBelt);
         
         this.physics.add.collider(key, groundLayer);
-        this.physics.add.collider(key, conveyorBelt);
+        this.physics.add.collider(key, conveyorBelt, this.onConveyorBelt);
         this.physics.add.collider(key, wallb, this.collectKey);
         this.physics.add.collider(key, mecha, this.collectKey);
+        wallb.setDragX(400);
+        
+        this.physics.add.collider(key1, groundLayer);
+        this.physics.add.collider(key1, conveyorBelt, this.onConveyorBelt);
+        this.physics.add.collider(key1, wallb, this.collectKey);
+        this.physics.add.collider(key1, mecha, this.collectKey);
         wallb.setDragX(400);
         
         this.physics.add.collider(door, groundLayer);
@@ -118,9 +134,11 @@ class Level2 extends Phaser.Scene {
         this.BDWallBC = this.physics.add.collider(blueDoor, wallb);
         this.BDMechaC =  this.physics.add.collider(blueDoor, mecha);
         this.BDKeyC =  this.physics.add.collider(blueDoor, key);
+        this.BDKey1C =  this.physics.add.collider(blueDoor, key1);
         
         this.GDMechaC = this.physics.add.collider(greenDoor, mecha);
         this.GDKeyC =  this.physics.add.collider(greenDoor, key);
+        this.GDKey1C =  this.physics.add.collider(greenDoor, key1);
         
     
         // wallb walk animation
@@ -226,8 +244,28 @@ class Level2 extends Phaser.Scene {
         }
         
         if(keyCount == 1){
-            key.x = player.x
-            key.y = player.y - 50
+            keyIcon.alpha = 1;
+            keyIcon.x = player.x;
+            keyIcon.y = player.y - 50;
+        }
+        if(keyCount == 2){
+            keyIcon.alpha = 1;
+            keyIcon1.alpha = 1;
+            keyIcon.x = player.x - 10
+            keyIcon.y = player.y - 50
+            keyIcon1.x = player.x + 10
+            keyIcon1.y = player.y - 50
+        }
+        if(keyCount == 3){
+            keyIcon.alpha = 1;
+            keyIcon1.alpha = 1;
+            keyIcon2.alpha = 1;
+            keyIcon.x = player.x - 20
+            keyIcon.y = player.y - 50
+            keyIcon1.x = player.x + 20
+            keyIcon1.y = player.y - 50
+            keyIcon2.x = player.x + 0
+            keyIcon2.y = player.y - 50
         }
         
         if (player == mecha) {
@@ -240,17 +278,21 @@ class Level2 extends Phaser.Scene {
             this.BDWallBC.active = false;
             this.BDMechaC.active = false;
             this.BDKeyC.active = false;
+            this.BDKey1C.active = false;
         } else {
             this.BDWallBC.active = true;
             this.BDKeyC.active = true;
+            this.BDKey1C.active = true;
         }
         
         if (gdIsActive) {
             this.GDMechaC.active = false;
             this.GDKeyC.active = false;
+            this.GDKey1C.active = false;
         } else {
             this.GDMechaC.active = true;
             this.GDKeyC.active = true;
+            this.GDKey1C.active = true;
         }
         bdIsActive = false;
         gdIsActive = false;
@@ -317,7 +359,7 @@ class Level2 extends Phaser.Scene {
         obj.body.setVelocityX(200);
     }
     collectKey(key) {
-        key.disableBody(true);
+        key.disableBody(true, true);
         keyCount += 1;
         //text.text = keyCount;
     }
