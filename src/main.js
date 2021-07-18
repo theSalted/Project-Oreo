@@ -36,6 +36,8 @@ var key;
 var keyCount;
 var text;
 var door;
+var bdIsActive;
+var gdIsActive;
 
 let textConfig = {
 	fontFamily: 'Impact',

@@ -52,8 +52,8 @@ class Level2 extends Phaser.Scene {
         blueButton.setCollisionByExclusion(-1, true);
         
         //create ButtonGreen layer
-        blueButton = map.createLayer('ButtonGreen', groundTiles, 0, 0);
-        blueButton.setCollisionByExclusion(-1, true);
+        greenButton = map.createLayer('ButtonGreen', groundTiles, 0, 0);
+        greenButton.setCollisionByExclusion(-1, true);
         
 
         // set the boundaries of our game world
@@ -90,13 +90,11 @@ class Level2 extends Phaser.Scene {
         this.physics.add.collider(wallb, groundLayer);
         this.physics.add.collider(wallb, conveyorBelt, this.onConveyorBelt);
         this.physics.add.overlap(wallb, mecha, this.collectMecha, null, this);
-        this.physics.add.collider(wallb, blueDoor);
         // make player wallb in the beginning of the game
         player = wallb
         
         this.physics.add.collider(mecha, groundLayer);
         this.physics.add.collider(mecha, conveyorBelt, this.onConveyorBelt);
-        this.blueCollider =  this.physics.add.collider(mecha, blueDoor);
         
         this.physics.add.collider(key, groundLayer);
         this.physics.add.collider(key, conveyorBelt);
@@ -108,6 +106,22 @@ class Level2 extends Phaser.Scene {
         this.physics.add.collider(door, conveyorBelt);
         this.physics.add.overlap(door, mecha, this.reachFlag, null, this);
         this.physics.add.overlap(door, wallb, this.reachFlag, null, this);
+        
+        // collider for buttons
+        this.physics.add.collider(blueButton, mecha, this.onBB);
+        this.physics.add.collider(blueButton, wallb, this.onBB);
+        
+        this.physics.add.collider(greenButton, mecha, this.onGB);
+        this.physics.add.collider(greenButton, wallb, this.onGB);
+        
+        // collider for doors
+        this.BDWallBC = this.physics.add.collider(blueDoor, wallb);
+        this.BDMechaC =  this.physics.add.collider(blueDoor, mecha);
+        this.BDKeyC =  this.physics.add.collider(blueDoor, key);
+        
+        this.GDMechaC = this.physics.add.collider(greenDoor, mecha);
+        this.GDKeyC =  this.physics.add.collider(greenDoor, key);
+        
     
         // wallb walk animation
         this.anims.create({
@@ -148,6 +162,7 @@ class Level2 extends Phaser.Scene {
         // key mapping
         cursors = this.input.keyboard.createCursorKeys();
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
 
         // set bounds so the camera won't go outside the game world
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -159,9 +174,19 @@ class Level2 extends Phaser.Scene {
         
         // initialize mid air jump flag
         this.canMidAirJump = false;
+        
+        // initialize BB and GB flag
+        bdIsActive = false;
+        gdIsActive = false;
+        
     }
 
     update() {
+        if (Phaser.Input.Keyboard.JustDown(keyQ)) { 
+            console.log('x: ' + player.x)
+            console.log('y: ' + player.y)
+        }
+        
         if (cursors.left.isDown) {
             if(player == wallb){
                 player.body.setVelocityX(-200); // move left
@@ -206,10 +231,29 @@ class Level2 extends Phaser.Scene {
         }
         
         if (player == mecha) {
-            this.blueCollider.active = true;
+            this.BDMechaC.active = true;
         } else {
-            this.blueCollider.active = false;
+            this.BDMechaC.active = false;
         }
+        
+        if (bdIsActive) {
+            this.BDWallBC.active = false;
+            this.BDMechaC.active = false;
+            this.BDKeyC.active = false;
+        } else {
+            this.BDWallBC.active = true;
+            this.BDKeyC.active = true;
+        }
+        
+        if (gdIsActive) {
+            this.GDMechaC.active = false;
+            this.GDKeyC.active = false;
+        } else {
+            this.GDMechaC.active = true;
+            this.GDKeyC.active = true;
+        }
+        bdIsActive = false;
+        gdIsActive = false;
     }
     collectMecha() {
         // combine mech and wallb
@@ -264,12 +308,11 @@ class Level2 extends Phaser.Scene {
                 mecha.body.setOffset(0, 61)
                 mecha.body.setVelocityY(0);
             }
-            console.log(player.x)
-            console.log(player.y)
+            
         }
     }
     onConveyorBelt(obj){
-        console.log('touch')
+        //console.log('touch')
         //console.log(obj.body.velocity.x)
         obj.body.setVelocityX(200);
     }
@@ -280,10 +323,17 @@ class Level2 extends Phaser.Scene {
     }
     reachFlag() {
         // restart the scene once condition is met
-        console.log('reach')
+        //console.log('reach')
         if (keyCount == 1 && player == mecha) {
             this.scene.start("level2Scene");
             this.backgroundMusic.stop();
         }
+    }
+
+    onBB() {
+        bdIsActive = true;
+    }
+    onGB() {
+        gdIsActive = true;
     }
 }
