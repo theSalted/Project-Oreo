@@ -16,11 +16,15 @@ class Menu extends Phaser.Scene {
 			'Press SPACE to Start', textConfig).setOrigin(0.5);
 
 		// key mapping
-		keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);		
+		keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+		keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);		
 	}
 	update() {
                 if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
                     this.scene.start("level2Scene");
         	}
+		if (Phaser.Input.Keyboard.JustDown(keyQ)) {
+		    this.scene.start("level3Scene");
+		}
         }
 }
