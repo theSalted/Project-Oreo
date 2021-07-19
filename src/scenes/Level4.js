@@ -335,7 +335,7 @@ class Level4 extends Phaser.Scene {
         } else {
             lava.y += 0.2;
         }
-        if (lava.y >= 200) {
+        if (lava.y >= 350) {
             this.lavaRise = true;
         } 
         if (lava.y <= 0) {
