@@ -22,13 +22,13 @@ class Menu extends Phaser.Scene {
 	}
 	update() {
                 if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-                    this.scene.start("level2Scene");
+                    this.scene.start("level3Scene");
         	}
 		if (Phaser.Input.Keyboard.JustDown(keyQ)) {
-		    this.scene.start("level3Scene");
+		    this.scene.start("level4Scene");
 		}
 		if (Phaser.Input.Keyboard.JustDown(keyW)) {
-			this.scene.start("level4Scene");
+			this.scene.start("level2Scene");
 		}
         }
 }
