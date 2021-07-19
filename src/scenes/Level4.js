@@ -84,13 +84,13 @@ class Level4 extends Phaser.Scene {
         mecha.body.setOffset(18.5, 61)
         
         // create key sprite
-        key = this.physics.add.sprite(430, 600, 'key');
+        key = this.physics.add.sprite(500, 300, 'key');
         key.setDragX(100);
         
-        key1 = this.physics.add.sprite(1470, 200, 'key');
+        key1 = this.physics.add.sprite(1080, 410, 'key');
         key1.setDragX(100);
         
-        key2 = this.physics.add.sprite(1920, 550, 'key');
+        key2 = this.physics.add.sprite(1870, 490, 'key');
         key2.setDragX(100);
         
         keyIcon = this.add.image(0, 0, 'key');
@@ -100,7 +100,7 @@ class Level4 extends Phaser.Scene {
         keyIcon1.alpha = 0
         keyIcon2.alpha = 0
         
-        door = this.physics.add.sprite(2180, 430, 'flag')
+        door = this.physics.add.sprite(2180, 200, 'flag')
         
         // define colliders
         this.physics.add.collider(wallb, groundLayer);
@@ -308,11 +308,13 @@ class Level4 extends Phaser.Scene {
             this.BDKeyC.active = false;
             this.BDKey1C.active = false;
             this.BDKey2C.active = false;
+            blueDoor.alpha = 0.2;
         } else {
             this.BDWallBC.active = true;
             this.BDKeyC.active = true;
             this.BDKey1C.active = true;
             this.BDKey2C.active = true;
+            blueDoor.alpha = 1;
         }
         
         if (gdIsActive) {
@@ -320,11 +322,13 @@ class Level4 extends Phaser.Scene {
             this.GDKeyC.active = false;
             this.GDKey1C.active = false;
             this.GDKey2C.active = false;
+            greenDoor.alpha = 0.2;
         } else {
             this.GDMechaC.active = true;
             this.GDKeyC.active = true;
             this.GDKey1C.active = true;
             this.GDKey2C.active = true;
+            greenDoor.alpha = 1;
         }
         bdIsActive = false;
         gdIsActive = false;

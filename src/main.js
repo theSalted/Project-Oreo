@@ -53,4 +53,4 @@ let textConfig = {
 	align: 'right',
 }
 // reserve keyboard vars
-let keyLEFT, keyRIGHT, keySPACE, keyR, keyQ;
+let keyLEFT, keyRIGHT, keySPACE, keyR, keyQ, keyW, keyTwo;

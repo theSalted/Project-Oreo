@@ -75,7 +75,7 @@ class Level3 extends Phaser.Scene {
         mecha.setScale(0.8, 0.8);
         //mecha.setBounceY(0.3);
         mecha.setCollideWorldBounds(true);
-        mecha.setDragX(400);
+        mecha.setDragX(1000);
         
         // initialize mecha collectable flag
         mecha.collectable = true;
@@ -108,7 +108,7 @@ class Level3 extends Phaser.Scene {
         this.physics.add.overlap(wallb, mecha, this.collectMecha, null, this);
         // make player wallb in the beginning of the game
         player = wallb
-        wallb.setDragX(400);
+        wallb.setDragX(1000);
         
         this.physics.add.collider(mecha, groundLayer);
         this.physics.add.collider(mecha, conveyorBelt, this.onConveyorBelt);
@@ -302,11 +302,14 @@ class Level3 extends Phaser.Scene {
             this.BDKeyC.active = false;
             this.BDKey1C.active = false;
             this.BDKey2C.active = false;
+            blueDoor.alpha = 0.2;
+            
         } else {
             this.BDWallBC.active = true;
             this.BDKeyC.active = true;
             this.BDKey1C.active = true;
             this.BDKey2C.active = true;
+            blueDoor.alpha = 1;
         }
         
         if (gdIsActive) {
@@ -314,11 +317,13 @@ class Level3 extends Phaser.Scene {
             this.GDKeyC.active = false;
             this.GDKey1C.active = false;
             this.GDKey2C.active = false;
+            greenDoor.alpha = 0.2;
         } else {
             this.GDMechaC.active = true;
             this.GDKeyC.active = true;
             this.GDKey1C.active = true;
             this.GDKey2C.active = true;
+            greenDoor.alpha = 1;
         }
         bdIsActive = false;
         gdIsActive = false;
