@@ -426,8 +426,8 @@ class Level4 extends Phaser.Scene {
         restart = true;
     }
     reset() {
-        //this.scene.start("level4Scene");
-        //this.backgroundMusic.stop();
+        this.scene.start("level4Scene");
+        this.backgroundMusic.stop();
     }
     onBB() {
         bdIsActive = true;
