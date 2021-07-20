@@ -118,21 +118,18 @@ class Level4 extends Phaser.Scene {
         this.physics.add.collider(key, greenButton);
         this.physics.add.collider(key, conveyorBelt, this.onConveyorBelt);
         this.physics.add.collider(key, wallb, this.collectKey);
-        this.physics.add.collider(key, mecha, this.collectKey);
         
         this.physics.add.collider(key1, groundLayer);
         this.physics.add.collider(key1, blueButton);
         this.physics.add.collider(key1, greenButton);
         this.physics.add.collider(key1, conveyorBelt, this.onConveyorBelt);
         this.physics.add.collider(key1, wallb, this.collectKey);
-        this.physics.add.collider(key1, mecha, this.collectKey);
         
         this.physics.add.collider(key2, groundLayer);
         this.physics.add.collider(key2, blueButton);
         this.physics.add.collider(key2, greenButton);
         this.physics.add.collider(key2, conveyorBelt, this.onConveyorBelt);
         this.physics.add.collider(key2, wallb, this.collectKey);
-        this.physics.add.collider(key2, mecha, this.collectKey)
         
         this.physics.add.collider(door, groundLayer);
         this.physics.add.collider(door, conveyorBelt);

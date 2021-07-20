@@ -28,7 +28,7 @@ class Menu extends Phaser.Scene {
 		    this.scene.start("level4Scene");
 		}
 		if (Phaser.Input.Keyboard.JustDown(keyW)) {
-			this.scene.start("level2Scene");
+			this.scene.start("level5Scene");
 		}
         }
 }
