@@ -76,8 +76,8 @@ class Level5 extends Phaser.Scene {
 		// initialize mecha collectable flag
 		mecha.collectable = true;
 		// modify mecha hitbox while collapse
-		mecha.body.setSize(20, 20)
-		mecha.body.setOffset(18.5, 61)
+		mecha.body.setSize(57, 20)
+		mecha.body.setOffset(0, 61)
 		
 		// create key sprite
 		key = this.physics.add.sprite(330, 350, 'key');

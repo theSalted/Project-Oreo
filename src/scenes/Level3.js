@@ -80,8 +80,8 @@ class Level3 extends Phaser.Scene {
         // initialize mecha collectable flag
         mecha.collectable = true;
         // modify mecha hitbox while collapse
-        mecha.body.setSize(20, 20)
-        mecha.body.setOffset(18.5, 61)
+        mecha.body.setSize(57, 20)
+        mecha.body.setOffset(0, 61)
         
         // create key sprite
         key = this.physics.add.sprite(700, 320, 'key');
@@ -141,7 +141,6 @@ class Level3 extends Phaser.Scene {
         this.physics.add.collider(greenButton, wallb, this.onGB);
         
         this.physics.add.collider(lava, wallb, this.touchLava);
-        this.LavaMechaC = this.physics.add.collider(lava, mecha);
         
         // collider for doors
         this.BDWallBC = this.physics.add.collider(blueDoor, wallb);
@@ -216,7 +215,7 @@ class Level3 extends Phaser.Scene {
         restart = false;
         // initialize lava rise flag
         this.lavaRise = true;
-        
+        this.lavaHeight = 595;
     }
 
     update() {
@@ -290,10 +289,16 @@ class Level3 extends Phaser.Scene {
         
         if (player == mecha) {
             this.BDMechaC.active = true;
-            this.LavaMechaC.active = false;
         } else {
             this.BDMechaC.active = false;
-            this.LavaMechaC.active = true;
+            if(mecha.y >= this.lavaHeight) {
+                mecha.body.setVelocityY(-70)
+                mecha.body.setSize(57, 40)
+                mecha.body.setOffset(0, 41)
+            } else {
+                mecha.body.setSize(57, 20)
+                mecha.body.setOffset(0, 61)
+            }
         }
         
         if (bdIsActive) {
@@ -331,8 +336,10 @@ class Level3 extends Phaser.Scene {
         //console.log(lava.y)
         if (this.lavaRise) {
             lava.y -= 0.2;
+            this.lavaHeight -= 0.2
         } else {
             lava.y += 0.2;
+            this.lavaHeight += 0.2
         }
         if (lava.y >= 100) {
             this.lavaRise = true;
