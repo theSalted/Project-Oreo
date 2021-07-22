@@ -26,6 +26,8 @@ class Level1 extends Phaser.Scene {
         
         // tiles for the ground layer
         var groundTiles = map.addTilesetImage('tileset', 'tiles', 16, 16);
+        // create the guide layer
+        guideLayer = map.createLayer('Guide', groundTiles, 0, 0);
         // create the ground layer
         groundLayer = map.createLayer('Background', groundTiles, 0, 0);
         //player collision

@@ -32,6 +32,7 @@ var wallb;
 var mecha;
 var cursors;
 var groundLayer;
+var guideLayer;
 var conveyorBelt;
 var lava;
 var blueDoor;
