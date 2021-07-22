@@ -11,10 +11,13 @@ class Menu extends Phaser.Scene {
 		this.load.audio('congratss', './assets/congrats.mp3');
 		this.load.audio('jet', './assets/jet_sound2.wav');
 		this.load.audio('collect', './assets/collecting.wav');
+		this.load.image('menuScreen', './assets/menu.png');
 		
 	}
 	create() {
 		// show menu text
+		this.menu = this.add.image(500, 300, 'menuScreen');
+		/*
 		this.add.text(game.config.width / 2, game.config.height / 2 - borderUISize - borderPadding,
 			'WAll-B', textConfig).setOrigin(0.5);
 		this.add.text(game.config.width / 2, game.config.height / 2,
@@ -25,6 +28,7 @@ class Menu extends Phaser.Scene {
 		this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize + borderPadding +
 			borderUISize + borderPadding + borderUISize + borderPadding 
 			+ borderUISize + borderPadding, 'Press T to skip the Level (cheat)', textConfig).setOrigin(0.5);
+		*/
 
 		// key mapping
 		keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
