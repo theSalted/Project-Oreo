@@ -258,13 +258,13 @@ class Level1 extends Phaser.Scene {
         }
 
         if(keyCount == 1) {
-            this.sound.play('collect');
+            //this.sound.play('collect');
             keyIcon.alpha = 1;
             keyIcon.x = player.x;
             keyIcon.y = player.y - 50;
         }
         if(keyCount == 2){
-            this.sound.play('collect');
+            //this.sound.play('collect');
             keyIcon.alpha = 1;
             keyIcon1.alpha = 1;
             keyIcon.x = player.x - 10
@@ -273,7 +273,7 @@ class Level1 extends Phaser.Scene {
             keyIcon1.y = player.y - 50
         }
         if(keyCount == 3){
-            this.sound.play('collect');
+            //this.sound.play('collect');
             keyIcon.alpha = 1;
             keyIcon1.alpha = 1;
             keyIcon2.alpha = 1;
