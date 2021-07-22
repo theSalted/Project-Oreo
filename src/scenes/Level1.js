@@ -112,8 +112,8 @@ class Level1 extends Phaser.Scene {
         
         this.physics.add.collider(key, groundLayer);
         this.physics.add.collider(key, conveyorBelt, this.onConveyorBelt);
-        this.physics.add.collider(key, wallb, this.collectKey);
-        this.physics.add.collider(key, mecha, this.collectKey);
+        this.physics.add.collider(key, wallb, this.collectKey, this.sound1);
+        this.physics.add.collider(key, mecha, this.collectKey, this.sound1);
         
         this.physics.add.collider(key1, groundLayer);
         this.physics.add.collider(key1, conveyorBelt, this.onConveyorBelt);
@@ -184,7 +184,6 @@ class Level1 extends Phaser.Scene {
         
         // initialize keyCount
         keyCount = 0;
-        
         // display keyCount
         //text = this.add.text(100, 100, keyCount, textConfig);
         
@@ -257,13 +256,15 @@ class Level1 extends Phaser.Scene {
         if(player == wallb && mecha.body.onFloor()) {
             mecha.collectable = true;
         }
-        
-        if(keyCount == 1){
+
+        if(keyCount == 1) {
+            this.sound.play('collect');
             keyIcon.alpha = 1;
             keyIcon.x = player.x;
             keyIcon.y = player.y - 50;
         }
         if(keyCount == 2){
+            this.sound.play('collect');
             keyIcon.alpha = 1;
             keyIcon1.alpha = 1;
             keyIcon.x = player.x - 10
@@ -272,6 +273,7 @@ class Level1 extends Phaser.Scene {
             keyIcon1.y = player.y - 50
         }
         if(keyCount == 3){
+            this.sound.play('collect');
             keyIcon.alpha = 1;
             keyIcon1.alpha = 1;
             keyIcon2.alpha = 1;
@@ -381,6 +383,7 @@ class Level1 extends Phaser.Scene {
                 }
                  
             } else if(this.canMidAirJump && player == mecha) {
+                this.sound.play("jet");
                 // update wallb position
                 wallb.x = mecha.x;
                 wallb.y = mecha.y - 30;
@@ -416,8 +419,8 @@ class Level1 extends Phaser.Scene {
     }
     reachFlag() {
         // restart the scene once condition is met
-        this.sound.play("congratss");
         if (keyCount == 3 && player == mecha) {
+            this.sound.play("congratss");
             this.scene.start("level2Scene");
             this.backgroundMusic.stop();
         }
@@ -435,4 +438,5 @@ class Level1 extends Phaser.Scene {
     onGB() {
         gdIsActive = true;
     }
+
 }
