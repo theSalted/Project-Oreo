@@ -22,38 +22,38 @@ class Level2 extends Phaser.Scene {
         this.backgroundMusic.play()
         
         // load the map 
-        map = this.make.tilemap({ key: 'level2' });
+        map2 = this.make.tilemap({ key: 'level2' });
         
         // tiles for the ground layer
-        var groundTiles = map.addTilesetImage('tileset', 'tiles', 16, 16);
+        var groundTiles = map2.addTilesetImage('tileset', 'tiles', 16, 16);
         // create the ground layer
-        groundLayer = map.createLayer('Background', groundTiles, 0, 0);
+        groundLayer = map2.createLayer('Background', groundTiles, 0, 0);
         //player collision
         //groundLayer.setCollisionByProperty({ collides: true });
         groundLayer.setCollisionByExclusion(-1, true);
         
         // create the conveyorBelt layer 
-        conveyorBelt = map.createLayer('ConveyorBelt', groundTiles, 0, 0);
+        conveyorBelt = map2.createLayer('ConveyorBelt', groundTiles, 0, 0);
         conveyorBelt.setCollisionByExclusion(-1, true);
         
         //create blue door layer
-        blueDoor = map.createLayer('DoorBlue', groundTiles, 0, 0);
+        blueDoor = map2.createLayer('DoorBlue', groundTiles, 0, 0);
         blueDoor.setCollisionByExclusion(-1, true);
         
         //create green wall layer
-        greenDoor = map.createLayer('DoorGreen', groundTiles, 0, 0);
+        greenDoor = map2.createLayer('DoorGreen', groundTiles, 0, 0);
         greenDoor.setCollisionByExclusion(-1, true);
         
         //create ButtonBlue layer
-        blueButton = map.createLayer('ButtonBlue', groundTiles, 0, 0);
+        blueButton = map2.createLayer('ButtonBlue', groundTiles, 0, 0);
         blueButton.setCollisionByExclusion(-1, true);
         
         //create ButtonGreen layer
-        greenButton = map.createLayer('ButtonGreen', groundTiles, 0, 0);
+        greenButton = map2.createLayer('ButtonGreen', groundTiles, 0, 0);
         greenButton.setCollisionByExclusion(-1, true);
         
         //create lava layer
-        lava = map.createLayer('Lava', groundTiles, 0, 80);
+        lava = map2.createLayer('Lava', groundTiles, 0, 80);
         lava.setCollisionByExclusion(-1, true);
 
         // set the boundaries of our game world
@@ -220,9 +220,8 @@ class Level2 extends Phaser.Scene {
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyT)) {
-            level3_bool = true;
             this.backgroundMusic.stop();
-            this.scene.start("menuScene");
+            this.scene.start("level3Scene");
         }
         if (cursors.left.isDown) {
             if(player == wallb){
@@ -419,10 +418,9 @@ class Level2 extends Phaser.Scene {
     }
     reachFlag() {
         // restart the scene once condition is met
-        level3_bool = true;
         if (keyCount == 3 && player == mecha) {
             this.sound.play("congratss");
-            this.scene.start("menuScene");
+            this.scene.start("level3Scene");
             this.backgroundMusic.stop();
         }
     }

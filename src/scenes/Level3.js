@@ -22,34 +22,34 @@ class Level3 extends Phaser.Scene {
 		this.backgroundMusic.play()
 		
 		// load the map 
-		map = this.make.tilemap({ key: 'level3' });
+		map3 = this.make.tilemap({ key: 'level3' });
 		
 		// tiles for the ground layer
-		var groundTiles = map.addTilesetImage('tileset', 'tiles', 16, 16);
+		var groundTiles = map3.addTilesetImage('tileset', 'tiles', 16, 16);
 		// create the ground layer
-		groundLayer = map.createLayer('Background', groundTiles, 0, 0);
+		groundLayer = map3.createLayer('Background', groundTiles, 0, 0);
 		//player collision
 		//groundLayer.setCollisionByProperty({ collides: true });
 		groundLayer.setCollisionByExclusion(-1, true);
 		
 		// create the conveyorBelt layer 
-		conveyorBelt = map.createLayer('ConveyorBelt', groundTiles, 0, 0);
+		conveyorBelt = map3.createLayer('ConveyorBelt', groundTiles, 0, 0);
 		conveyorBelt.setCollisionByExclusion(-1, true);
 		
 		//create blue door layer
-		blueDoor = map.createLayer('DoorBlue', groundTiles, 0, 0);
+		blueDoor = map3.createLayer('DoorBlue', groundTiles, 0, 0);
 		blueDoor.setCollisionByExclusion(-1, true);
 		
 		//create green wall layer
-		greenDoor = map.createLayer('DoorGreen', groundTiles, 0, 0);
+		greenDoor = map3.createLayer('DoorGreen', groundTiles, 0, 0);
 		greenDoor.setCollisionByExclusion(-1, true);
 		
 		//create ButtonBlue layer
-		blueButton = map.createLayer('ButtonBlue', groundTiles, 0, 0);
+		blueButton = map3.createLayer('ButtonBlue', groundTiles, 0, 0);
 		blueButton.setCollisionByExclusion(-1, true);
 		
 		//create ButtonGreen layer
-		greenButton = map.createLayer('ButtonGreen', groundTiles, 0, 0);
+		greenButton = map3.createLayer('ButtonGreen', groundTiles, 0, 0);
 		greenButton.setCollisionByExclusion(-1, true);
 
 		// set the boundaries of our game world
@@ -211,10 +211,8 @@ class Level3 extends Phaser.Scene {
 
 	update() {
 		if (Phaser.Input.Keyboard.JustDown(keyT)) {
-            level2_bool = false;
-			level3_bool = false;
 			this.backgroundMusic.stop();
-            this.scene.start("gameOverscene");
+            this.scene.start("menuScene");
         }	
 		if (cursors.left.isDown) {
 			if(player == wallb){
@@ -394,9 +392,7 @@ class Level3 extends Phaser.Scene {
 		//console.log('reach')
 		if (keyCount == 3 && player == mecha) {
 			this.sound.play("congratss");
-			level2_bool = false;
-			level3_bool = false;
-			this.scene.start("gameOverScene");
+			this.scene.start("menuScene");
 			this.backgroundMusic.stop();
 		}
 	}

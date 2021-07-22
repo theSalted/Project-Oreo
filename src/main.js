@@ -22,6 +22,8 @@ var health = 3;
 var p1Score = 0;
 
 var map;
+var map2;
+var map3;
 var player;
 var wallb;
 var mecha;
@@ -45,9 +47,6 @@ var door;
 var bdIsActive;
 var gdIsActive;
 var restart;
-
-var level2_bool = false;
-var level3_bool = false;
 
 let textConfig = {
 	fontFamily: 'Impact',

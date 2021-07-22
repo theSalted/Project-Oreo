@@ -217,9 +217,8 @@ class Level1 extends Phaser.Scene {
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyT)) {
-            level2_bool = true;
             this.backgroundMusic.stop();
-            this.scene.start("menuScene");
+            this.scene.start("level2Scene");
         }
         if (cursors.left.isDown) {
             if(player == wallb){
@@ -419,8 +418,7 @@ class Level1 extends Phaser.Scene {
         // restart the scene once condition is met
         this.sound.play("congratss");
         if (keyCount == 3 && player == mecha) {
-            level2_bool = true;
-            this.scene.start("menuScene");
+            this.scene.start("level2Scene");
             this.backgroundMusic.stop();
         }
     }

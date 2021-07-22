@@ -18,36 +18,21 @@ class Menu extends Phaser.Scene {
 		this.add.text(game.config.width / 2, game.config.height / 2,
 			'SPACE = JUMP, Arrows - Movement', textConfig).setOrigin(0.5);
 		this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize + borderPadding,
-			'Press Q to Start Level 1', textConfig).setOrigin(0.5);
+			'Press Space to Start', textConfig).setOrigin(0.5);
 
 		this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize + borderPadding +
 			borderUISize + borderPadding + borderUISize + borderPadding 
 			+ borderUISize + borderPadding, 'Press T to skip the Level (cheat)', textConfig).setOrigin(0.5);
 
-		if (level2_bool) {
-			this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize + borderPadding +
-				borderUISize + borderPadding, 'Press W to Start Level 2', textConfig).setOrigin(0.5);
-		}
-		if (level3_bool) {
-			this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize + borderPadding +
-				borderUISize + borderPadding + borderUISize + borderPadding, 'Press E to Start Level 3', textConfig).setOrigin(0.5);
-		}
-
 		// key mapping
-		keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+		keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 		keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 		keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
 		keyT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
 	}
 	update() {
-		if (Phaser.Input.Keyboard.JustDown(keyQ)) {
+		if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
 			this.scene.start("level1Scene");
-		}
-		if (Phaser.Input.Keyboard.JustDown(keyW) && level2_bool) {
-			this.scene.start("level2Scene");
-		}
-		if (Phaser.Input.Keyboard.JustDown(keyE) && level3_bool) {
-			this.scene.start("level3Scene");
 		}
 	}
 }
