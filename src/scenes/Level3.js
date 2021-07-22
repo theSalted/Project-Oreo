@@ -28,6 +28,8 @@ class Level3 extends Phaser.Scene {
         var groundTiles = map3.addTilesetImage('tileset', 'tiles', 16, 16);
         // create the scene layer
         sceneLayer = map3.createLayer('Scene', groundTiles, 0, 0);
+        // create the prop layer
+        propLayer = map3.createLayer('Prop', groundTiles, 0, 0);
         // create the guide layer
         guideLayer = map3.createLayer('Guide', groundTiles, 0, 0);
         // create the ground layer
@@ -206,7 +208,7 @@ class Level3 extends Phaser.Scene {
         this.cameras.main.startFollow(player);
 
         // set background color, so the sky is not black    
-        this.cameras.main.setBackgroundColor('#ccccff');
+        this.cameras.main.setBackgroundColor('#110e21');
         
         // initialize mid air jump flag
         this.canMidAirJump = false;

@@ -204,7 +204,7 @@ class Level1 extends Phaser.Scene {
         this.cameras.main.startFollow(player);
 
         // set background color, so the sky is not black    
-        this.cameras.main.setBackgroundColor('#1c1734');
+        this.cameras.main.setBackgroundColor('#110e21');
         
         // initialize mid air jump flag
         this.canMidAirJump = false;
