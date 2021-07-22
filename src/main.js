@@ -33,6 +33,8 @@ var mecha;
 var cursors;
 var groundLayer;
 var guideLayer;
+var sceneLayer;
+var propLayer;
 var conveyorBelt;
 var lava;
 var blueDoor;
