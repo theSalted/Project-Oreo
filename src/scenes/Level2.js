@@ -352,6 +352,7 @@ class Level2 extends Phaser.Scene {
 				}
 				 
 			} else if(this.canMidAirJump && player == mecha) {
+				this.sound.play("jet");
 				// update wallb position
 				wallb.x = mecha.x;
 				wallb.y = mecha.y - 30;

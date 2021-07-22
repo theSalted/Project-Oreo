@@ -221,7 +221,7 @@ class Level3 extends Phaser.Scene {
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyT)) {
             this.backgroundMusic.stop();
-            this.scene.start("menuScene");
+            this.scene.start("gameOverscene");
         }
         if (cursors.left.isDown) {
             if(player == wallb){
@@ -384,6 +384,7 @@ class Level3 extends Phaser.Scene {
                 }
                  
             } else if(this.canMidAirJump && player == mecha) {
+                this.sound.play("jet");
                 // update wallb position
                 wallb.x = mecha.x;
                 wallb.y = mecha.y - 30;

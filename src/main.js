@@ -21,6 +21,9 @@ let borderPadding = borderUISize / 3;
 var health = 3;
 var p1Score = 0;
 
+
+var music1, music2, music3;
+var count;
 var map;
 var map2;
 var map3;
