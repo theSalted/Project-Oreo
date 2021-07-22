@@ -10,7 +10,7 @@ class Level3 extends Phaser.Scene {
         this.load.image('key', './assets/key.png');
         this.load.image('flag', './assets/flag.png');
         // load mecha sprite
-        this.load.spritesheet('mecha', './assets/wall-b-mecha.png', {frameWidth: 57, frameHeight: 81, startFrame: 0, endFrame: 3})
+        this.load.spritesheet('mecha', './assets/wall-b-mecha.png', {frameWidth: 57, frameHeight: 81, startFrame: 0, endFrame: 6})
         this.load.spritesheet('wall-b', './assets/wall-b.png', {frameWidth: 56, frameHeight: 68, startFrame: 0, endFrame: 3})
     }
 
@@ -179,7 +179,7 @@ class Level3 extends Phaser.Scene {
         //mecha expand animation
         this.anims.create({
             key: 'expand',
-            frames: this.anims.generateFrameNumbers('mecha', { start:0, end: 3, first: 0}),
+            frames: this.anims.generateFrameNumbers('mecha', { start:0, end: 4, first: 0}),
             frameRate: 6,
             repeat: 0
         });
@@ -189,6 +189,19 @@ class Level3 extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('mecha', { start:0, end: 2, first: 0}),
             frameRate: 6,
             repeat: 0
+        });
+        
+        this.anims.create({
+            key: 'mecha-walk',
+            frames: this.anims.generateFrameNumbers('mecha', { start:5, end: 6, first: 5}),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'mecha-idle',
+            frames: this.anims.generateFrameNumbers('mecha', { start:4, end: 4, first: 4}),
+            frameRate: 1,
+            repeat: -1
         });
         
         // initialize keyCount
@@ -235,6 +248,7 @@ class Level3 extends Phaser.Scene {
                 wallb.anims.play('walk', true); // play walk animation
             } else if(player == mecha) {
                 player.body.setVelocityX(-150); // move left
+                mecha.anims.play('mecha-walk', true);
             }
             player.flipX = true; // flip the sprite to the left
             this.midAirJump() 
@@ -244,6 +258,7 @@ class Level3 extends Phaser.Scene {
                 player.body.setVelocityX(200); // move right
                 wallb.anims.play('walk', true); // play walk animation
             }else if(player == mecha) {
+                mecha.anims.play('mecha-walk', true);
                 player.body.setVelocityX(150); // move left
             }
             player.flipX = false; // use the original sprite looking to the right
@@ -252,6 +267,8 @@ class Level3 extends Phaser.Scene {
             //player.body.setVelocityX(0);
             if(player == wallb){
                 player.anims.play('idle', true);
+            } else if(player == mecha){
+                mecha.anims.play('mecha-idle', true);
             }
         }
         
