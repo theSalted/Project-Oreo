@@ -232,6 +232,7 @@ class Level1 extends Phaser.Scene {
         // initialize lava rise flag
         this.lavaRise = true;
         this.lavaHeight = 595;
+        this.isExpand = false;
     }
 
     update() {
@@ -249,6 +250,7 @@ class Level1 extends Phaser.Scene {
             }
             player.flipX = true; // flip the sprite to the left
             this.midAirJump() 
+            this.isExpand = false;
         }
         else if (cursors.right.isDown) { // if the right arrow key is down
             if(player == wallb){
@@ -257,6 +259,7 @@ class Level1 extends Phaser.Scene {
             }else if(player == mecha) {
                 mecha.anims.play('mecha-walk', true);
                 player.body.setVelocityX(150); // move left
+                this.isExpand = false;
             }
             player.flipX = false; // use the original sprite looking to the right
             this.midAirJump() 
@@ -264,7 +267,7 @@ class Level1 extends Phaser.Scene {
             //player.body.setVelocityX(0);
             if(player == wallb){
                 player.anims.play('idle', true);
-            } else if(player == mecha){
+            } else if(player == mecha && !this.isExpand){
                 mecha.anims.play('mecha-idle', true);
             }
         }
@@ -393,6 +396,7 @@ class Level1 extends Phaser.Scene {
             // play expand animation
             mecha.anims.stop();
             mecha.anims.play('expand', true);
+            this.isExpand = true;
         }
     }
     midAirJump() {
