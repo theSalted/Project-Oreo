@@ -9,7 +9,7 @@ class Menu extends Phaser.Scene {
 		this.load.audio('bgm_level3', './assets/sound_level3.wav');
 		this.load.audio('transformation', './assets/transform.wav');
 		this.load.audio('congratss', './assets/congrats.mp3');
-		this.load.audio('jet', './assets/jet_sound1.wav');
+		this.load.audio('jet', './assets/jet_sound2.wav');
 		this.load.audio('collect', './assets/collecting.wav');
 		
 	}
