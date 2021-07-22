@@ -9,7 +9,7 @@ let config = {
 			//debug: true //debug only
         }
     },
-	scene: [Menu, Level1, Level2, Level3, Level4, Level5, GameOver]
+	scene: [Menu, Level1, Level2, Level3, GameOver]
 }
 
 let game = new Phaser.Game(config);
@@ -46,6 +46,9 @@ var bdIsActive;
 var gdIsActive;
 var restart;
 
+var level2_bool = false;
+var level3_bool = false;
+
 let textConfig = {
 	fontFamily: 'Impact',
 	fontSize: '40px',
@@ -53,4 +56,4 @@ let textConfig = {
 	align: 'right',
 }
 // reserve keyboard vars
-let keyLEFT, keyRIGHT, keySPACE, keyR, keyQ, keyW, keyTwo;
+let keyLEFT, keyRIGHT, keySPACE, keyR, keyQ, keyW, keyE, keyT, keyTwo;

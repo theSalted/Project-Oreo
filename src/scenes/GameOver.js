@@ -1,6 +1,6 @@
 class GameOver extends Phaser.Scene {
     constructor() {
-        super("gameOver");
+        super("gameOverscene");
     }
     create() {
         let menuConfig = {
@@ -17,11 +17,14 @@ class GameOver extends Phaser.Scene {
         }
         // show menu text
         this.add.text(game.config.width / 2, game.config.height / 2 - borderUISize - borderPadding,
-            'Game Over', menuConfig).setOrigin(0.5);
+            'The End', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
-        this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize + borderPadding,
-            'Press R to Restart or Q to Quit', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize + borderPadding, 
+            'Credits:  Yuhao Chen (programmer/art)\nYanyao Hu (programmer/art)\nIzat Temiraliev (programmer/sound)', menuConfig).setOrigin(0.5);
+
+        this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize + borderPadding
+             + borderUISize + borderPadding + borderUISize, 'Press R to Restart or Q to Quit', menuConfig).setOrigin(0.5);
 
         // key mapping
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
