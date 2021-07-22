@@ -12,10 +12,14 @@ class Menu extends Phaser.Scene {
 		this.load.audio('jet', './assets/jet_sound2.wav');
 		this.load.audio('collect', './assets/collecting.wav');
 		this.load.image('menuScreen', './assets/menu.png');
+		this.load.image('background', './assets/background.png');
+		this.load.image('foreground', './assets/foreground.png');
 		
 	}
 	create() {
 		// show menu text
+		this.background = this.add.tileSprite(0, 0, 1000, 600, 'background').setOrigin(0, 0);
+		this.foreground = this.add.tileSprite(0, 0, 1000, 600, 'foreground').setOrigin(0, 0);
 		this.menu = this.add.image(500, 300, 'menuScreen');
 		/*
 		this.add.text(game.config.width / 2, game.config.height / 2 - borderUISize - borderPadding,
@@ -37,6 +41,8 @@ class Menu extends Phaser.Scene {
 		keyT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
 	}
 	update() {
+		this.background.tilePositionX += (4.5);
+		this.foreground.tilePositionX += (6.5);	
 		if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
 			this.scene.start("level1Scene");
 		}
