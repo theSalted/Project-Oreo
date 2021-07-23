@@ -274,6 +274,7 @@ class CutScene2 extends Phaser.Scene {
 		this.time.delayedCall(25000, () => {
 			this.scene.start("gameOverscene");
 		}, null, this);
+		stage = "";
 	}
 
 	update() {

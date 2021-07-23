@@ -39,6 +39,7 @@ class Menu extends Phaser.Scene {
 		keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 		keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
 		keyT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
+		stage = "";
 	}
 	update() {
 		this.background.tilePositionX += (4.5);
