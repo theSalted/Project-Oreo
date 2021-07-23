@@ -54,6 +54,9 @@ var door;
 var bdIsActive;
 var gdIsActive;
 var restart;
+var moveLeft;
+var moveRight;
+var stage = "";
 
 let textConfig = {
 	fontFamily: 'Impact',

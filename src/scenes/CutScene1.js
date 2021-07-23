@@ -62,23 +62,40 @@ class CutScene1 extends Phaser.Scene {
         //create lava layer
         lava = map.createLayer('Lava', groundTiles, 0, 80);
         lava.setCollisionByExclusion(-1, true);
+        
+        this.invisibleWall = map.createLayer('invisibleWall', groundTiles, 0, 0);
+        this.invisibleWall.setCollisionByExclusion(-1, true);
+        
+        this.trigger1 = map.createLayer('Trigger1', groundTiles, 0, 0);
+        this.trigger1.setCollisionByExclusion(-1, true);
+        
+        this.trigger2 = map.createLayer('Trigger2', groundTiles, 0, 0);
+        this.trigger2.setCollisionByExclusion(-1, true);
+        
+        this.trigger3 = map.createLayer('Trigger3', groundTiles, 0, 0);
+        this.trigger3.setCollisionByExclusion(-1, true);
+        
+        this.trigger4 = map.createLayer('Trigger4', groundTiles, 0, 0);
+        this.trigger4.setCollisionByExclusion(-1, true);
+
 
         // set the boundaries of our game world
         this.physics.world.bounds.width = groundLayer.width;
         this.physics.world.bounds.height = groundLayer.height;
 
         // create the player sprite    
-        wallb = this.physics.add.sprite(950, 450, 'wall-b');
+        wallb = this.physics.add.sprite(1000, 450, 'wall-b');
         wallb.setScale(0.4, 0.4);
         //wallb.setBounceY(0.3); // our player will bounce from ground
-        wallb.setCollideWorldBounds(true); // don't go out of the map    
+        wallb.setCollideWorldBounds(true); // don't go out of the map 
+        wallb.flipX = true;
         
         
         // create the Mecha sprite
         mecha = this.physics.add.sprite(16, 400, 'mecha');
         mecha.setScale(0.8, 0.8);
         //mecha.setBounceY(0.3);
-        mecha.setCollideWorldBounds(true);
+        //mecha.setCollideWorldBounds(true);
         mecha.setDragX(1000);
         
         // initialize mecha collectable flag
@@ -93,7 +110,7 @@ class CutScene1 extends Phaser.Scene {
         //mecha.setBounceY(0.3);
         scientist.setCollideWorldBounds(true);
         scientist.setDragX(1000);
-        
+        scientist.setPushable(false);
         
         // create key sprite
         key = this.physics.add.sprite(700, 320, 'key');
@@ -116,6 +133,7 @@ class CutScene1 extends Phaser.Scene {
         
         // define colliders
         this.physics.add.collider(wallb, groundLayer);
+        this.physics.add.collider(wallb, scientist);
         this.physics.add.collider(wallb, conveyorBelt, this.onConveyorBelt);
         this.physics.add.overlap(wallb, mecha, this.collectMecha, null, this);
         // make player wallb in the beginning of the game
@@ -124,9 +142,15 @@ class CutScene1 extends Phaser.Scene {
         
         this.physics.add.collider(mecha, groundLayer);
         this.physics.add.collider(mecha, conveyorBelt, this.onConveyorBelt);
+        this.physics.add.collider(mecha, this.trigger4, this.action5);
         
         this.physics.add.collider(scientist, groundLayer);
         this.physics.add.collider(scientist, conveyorBelt);
+        this.physics.add.collider(scientist, this.invisibleWall, this.action1);
+        this.physics.add.collider(scientist, this.trigger1, this.action2);
+        this.physics.add.collider(scientist, this.trigger2, this.action3);
+        this.physics.add.collider(scientist, this.trigger3, this.action4);
+        this.physics.add.collider(scientist, this.trigger4, this.action5);
         
         this.physics.add.collider(key, groundLayer);
         this.physics.add.collider(key, conveyorBelt, this.onConveyorBelt);
@@ -149,8 +173,9 @@ class CutScene1 extends Phaser.Scene {
         this.physics.add.overlap(door, wallb, this.reachFlag, null, this);
         
         // collider for buttons
-        this.physics.add.collider(blueButton, mecha, this.onBB);
-        this.physics.add.collider(blueButton, wallb, this.onBB);
+        this.physics.add.collider(blueButton, mecha);
+        this.physics.add.collider(blueButton, wallb);
+        this.physics.add.collider(blueButton, scientist, this.onBB);
         
         this.physics.add.collider(greenButton, mecha, this.onGB);
         this.physics.add.collider(greenButton, wallb, this.onGB);
@@ -225,6 +250,19 @@ class CutScene1 extends Phaser.Scene {
             frameRate: 1,
             repeat: -1
         });
+        
+        this.anims.create({
+            key: 'scienticha_walk',
+            frames: this.anims.generateFrameNumbers('scientist', { start:4, end: 5, first: 4}),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'scienticha_idle',
+            frames: this.anims.generateFrameNumbers('scientist', { start:3, end: 3, first: 3}),
+            frameRate: 1,
+            repeat: -1
+        });
 
         
         // initialize keyCount
@@ -256,7 +294,7 @@ class CutScene1 extends Phaser.Scene {
         this.canMidAirJump = false;
         
         // initialize BB and GB flag
-        bdIsActive = true;
+        bdIsActive = false;
         //blueDoor.alpha = 0.2;
         gdIsActive = false;
         
@@ -267,6 +305,11 @@ class CutScene1 extends Phaser.Scene {
         this.lavaHeight = 595;
         this.isExpand = false;
         this.isDevMode = true;
+        this.isScienticha =  true;
+        moveLeft = false;
+        moveRight = false;
+        
+        mecha.alpha = 0;
     }
 
     update() {
@@ -366,16 +409,8 @@ class CutScene1 extends Phaser.Scene {
         }
         
         if (bdIsActive) {
-            this.BDMechaC.active = false;
-            this.BDKeyC.active = false;
-            this.BDKey1C.active = false;
-            this.BDKey2C.active = false;
             blueDoor.alpha = 0.2;
-            
         } else {
-            this.BDKeyC.active = true;
-            this.BDKey1C.active = true;
-            this.BDKey2C.active = true;
             blueDoor.alpha = 1;
         }
         
@@ -392,7 +427,7 @@ class CutScene1 extends Phaser.Scene {
             this.GDKey2C.active = true;
             greenDoor.alpha = 1;
         }
-        bdIsActive = true;
+        bdIsActive = false;
         gdIsActive = false;
         
         if (this.lavaRise) {
@@ -412,8 +447,16 @@ class CutScene1 extends Phaser.Scene {
         if(restart) {
             this.reset();
         }
-        
-        
+        if(stage == "mecha release") {
+            //console.log(stage);
+            this.isScienticha = false;
+            mecha.x = scientist.x;
+            mecha.y = scientist.y;
+            mecha.alpha = 1;
+            mecha.anims.stop();
+            mecha.anims.playReverse('collapse', true);
+            stage = "goodbye";
+        }
     }
     collectMecha() {
         // combine mech and wallb
@@ -475,20 +518,32 @@ class CutScene1 extends Phaser.Scene {
         }
     }
     scientistControl() {
-        if (keyJ.isDown) {
-            scientist.body.setVelocityX(-200); // move left
-            scientist.anims.play('scientist_walk', true); // play walk animation
+        if (keyJ.isDown || moveLeft) {
+            scientist.body.setVelocityX(-100); // move left
+            if(this.isScienticha) {
+               scientist.anims.play('scienticha_walk', true); // play walk animation 
+            } else {
+               scientist.anims.play('scientist_walk', true); // play walk animation 
+            }
             scientist.flipX = true; // flip the sprite to the left
             this.scientistJump() 
         }
-        else if (keyK.isDown) { // if the right arrow key is down
-            scientist.body.setVelocityX(200); // move right
-            scientist.anims.play('scientist_walk', true); // play walk animation
+        else if (keyK.isDown || moveRight) { // if the right arrow key is down
+            scientist.body.setVelocityX(100); // move right
+            if(this.isScienticha) {
+                scientist.anims.play('scienticha_walk', true);
+            } else {
+                scientist.anims.play('scientist_walk', true);
+            }
             scientist.flipX = false; // use the original sprite looking to the right
             this.scientistJump()
         } else {
             //player.body.setVelocityX(0);
-            scientist.anims.play('scientist_idle', true);
+            if(this.isScienticha) {
+                scientist.anims.play('scienticha_idle', true);
+            } else {
+                scientist.anims.play('scientist_idle', true);
+            }
         }
         this.scientistJump()
     }
@@ -528,6 +583,43 @@ class CutScene1 extends Phaser.Scene {
     }
     onGB() {
         gdIsActive = true;
+    }
+    action1() {  
+        console.log('test')
+        moveLeft = false;
+    }
+    action2() {
+        moveLeft = true;
+    }
+    action3(obj) {
+        obj.body.setVelocityY(-300)
+        moveLeft = true;
+    }
+    action4(obj) {
+        if(stage == "goodbye") {
+            moveLeft = false;
+            moveRight = false;
+        } else {
+            obj.body.setVelocityY(-350)
+            moveLeft = false;
+            moveRight = true;
+        }
+    }
+    action5(obj) {
+        if(obj == scientist) {
+            if(stage == "goodbye") {
+                moveLeft = true;
+            } else {
+                moveLeft = false;
+                moveRight = false;
+                stage = "mecha release";
+            }
+            
+        }
+        if(obj == mecha) {
+            obj.body.setVelocityX(200);
+        }
+        
     }
 
 }
