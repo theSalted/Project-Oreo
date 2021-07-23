@@ -9,7 +9,7 @@ let config = {
 			//debug: true //debug only
         }
     },
-	scene: [Menu, CutScene1, Level1, Level2, Level3, GameOver]
+	scene: [Menu, CutScene1, Level1, Level2, Level3, CutScene2, GameOver]
 }
 
 let game = new Phaser.Game(config);
@@ -28,6 +28,7 @@ var map;
 var map2;
 var map3;
 var map4;
+var map5;
 var player;
 var wallb;
 var mecha;
