@@ -44,7 +44,7 @@ class Menu extends Phaser.Scene {
 		this.background.tilePositionX += (4.5);
 		this.foreground.tilePositionX += (6.5);	
 		if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-			this.scene.start("level1Scene");
+			this.scene.start("CutScene1");
 		}
 		if (Phaser.Input.Keyboard.JustDown(keyW)) {
 			this.scene.start("gameOverscene");

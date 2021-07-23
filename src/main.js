@@ -9,7 +9,7 @@ let config = {
 			//debug: true //debug only
         }
     },
-	scene: [Menu, Level1, Level2, Level3, GameOver]
+	scene: [Menu, CutScene1, Level1, Level2, Level3, GameOver]
 }
 
 let game = new Phaser.Game(config);
@@ -30,6 +30,7 @@ var map3;
 var player;
 var wallb;
 var mecha;
+var scientist;
 var cursors;
 var groundLayer;
 var guideLayer;
@@ -61,4 +62,4 @@ let textConfig = {
 	align: 'right',
 }
 // reserve keyboard vars
-let keyLEFT, keyRIGHT, keySPACE, keyR, keyQ, keyW, keyE, keyT, keyTwo;
+let keyLEFT, keyRIGHT, keySPACE, keyR, keyQ, keyW, keyE, keyX, keyJ, keyK, keyT, keyTwo;
