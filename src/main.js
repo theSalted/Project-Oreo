@@ -48,6 +48,7 @@ var key2;
 var keyIcon;
 var keyIcon1;
 var keyIcon2;
+var dialogue;
 var keyCount;
 var text;
 var door;

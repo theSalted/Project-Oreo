@@ -8,11 +8,20 @@ class CutScene1 extends Phaser.Scene {
         // tiles in spritesheet 
         this.load.image('tiles', './assets/tiles.png');
         this.load.image('flag', './assets/flag.png');
-        this.load.image('1-took-you-long-enough', './assets/speech/1-took-you-long-enough.png');
         // load mecha sprite
         this.load.spritesheet('mecha', './assets/wall-b-mecha.png', {frameWidth: 57, frameHeight: 81, startFrame: 0, endFrame: 6});
         this.load.spritesheet('wall-b', './assets/wall-b.png', {frameWidth: 56, frameHeight: 68, startFrame: 0, endFrame: 3});
         this.load.spritesheet('scientist', './assets/scientist.png', {frameWidth: 57, frameHeight: 81, startFrame: 0, endFrame: 13});
+        
+        this.load.image('1-took-you-long-enough', './assets/speech/1-took-you-long-enough.png');
+        this.load.image('2-come-closer', './assets/speech/2-come-closer.png');
+        this.load.image('3-010-M', './assets/speech/3-010-M.png');
+        this.load.image('4-lemeshowu', './assets/speech/4-lemeshowu.png');
+        this.load.image('5-lava-proof', './assets/speech/5-lava-proof.png');
+        this.load.image('6-sys-warn', './assets/speech/6-sys-warn.png');
+        this.load.image('7-oh-no', './assets/speech/7-oh-no.png');
+        this.load.image('8-go', './assets/speech/8-go.png');
+        this.load.image('9-lab4', './assets/speech/9-lab4.png');
     }
 
     create() {
@@ -61,19 +70,30 @@ class CutScene1 extends Phaser.Scene {
         
         this.invisibleWall = map.createLayer('invisibleWall', groundTiles, 0, 0);
         this.invisibleWall.setCollisionByExclusion(-1, true);
+        this.invisibleWall.setAlpha(0);
         
         this.trigger1 = map.createLayer('Trigger1', groundTiles, 0, 0);
         this.trigger1.setCollisionByExclusion(-1, true);
+        this.trigger1.setAlpha(0);
         
         this.trigger2 = map.createLayer('Trigger2', groundTiles, 0, 0);
         this.trigger2.setCollisionByExclusion(-1, true);
+        this.trigger2.setAlpha(0);
         
         this.trigger3 = map.createLayer('Trigger3', groundTiles, 0, 0);
         this.trigger3.setCollisionByExclusion(-1, true);
+        this.trigger3.setAlpha(0);
         
         this.trigger4 = map.createLayer('Trigger4', groundTiles, 0, 0);
         this.trigger4.setCollisionByExclusion(-1, true);
-
+        this.trigger4.setAlpha(0);
+        
+        dialogue = this.add.image(0, 0, '1-took-you-long-enough');
+        dialogue.setScale(.3);
+        
+        this.sysWarn = this.add.image(600, 350, "6-sys-warn");
+        this.sysWarn.setScale(.4);
+        this.sysWarn.setAlpha(0);
 
         // set the boundaries of our game world
         this.physics.world.bounds.width = groundLayer.width;
@@ -255,10 +275,27 @@ class CutScene1 extends Phaser.Scene {
         this.isExpand = false;
         this.isDevMode = true;
         this.isScienticha =  true;
+        this.dialogueOffSetX = 60;
+        this.dialogueOffSetY = -60;
+        this.track = "level1";
         moveLeft = false;
         moveRight = false;
         
         mecha.alpha = 0;
+        
+        this.time.delayedCall(4000, () => {
+            dialogue.setTexture('2-come-closer');
+            this.time.delayedCall(3000, () => {
+                dialogue.setTexture('3-010-M');
+                dialogue.setScale(.5);
+                this.time.delayedCall(2000, () => {
+                    dialogue.setTexture('4-lemeshowu');
+                    dialogue.setScale(.3);
+                    moveLeft = true;
+                    stage = "lava demo"
+                }, null, this);
+            }, null, this);
+        }, null, this);
     }
 
     update() {
@@ -351,6 +388,9 @@ class CutScene1 extends Phaser.Scene {
             this.lavaRise = false;
         }
         
+        dialogue.x = scientist.x + this.dialogueOffSetX;
+        dialogue.y = scientist.y + this.dialogueOffSetY;
+        
         if(restart) {
             this.reset();
         }
@@ -362,7 +402,46 @@ class CutScene1 extends Phaser.Scene {
             mecha.alpha = 1;
             mecha.anims.stop();
             mecha.anims.playReverse('collapse', true);
-            stage = "goodbye";
+            moveLeft = true;
+            stage = "movetoEnd";
+        }
+        if(stage == "emergency") {
+            stage = "wait for action"
+            scientist.flipX = false;
+            dialogue.setTexture('5-lava-proof');
+            this.time.delayedCall(3000, () => {
+                this.sysWarn.setAlpha(1);
+                if(this.track != "finished") {
+                    this.track = "level3";
+                }
+                this.time.delayedCall(2000, () => {
+                    dialogue.setTexture('7-oh-no');
+                    this.time.delayedCall(1000, () => {
+                        stage = "transition to top"
+                        this.sysWarn.setAlpha(0);
+                    }, null, this);
+                }, null, this);
+            }, null, this);
+        }
+        if (stage == "goodbye") {
+            stage = "finished"
+            this.dialogueOffSetX = 200;
+            scientist.flipX = false;
+            dialogue.setTexture('8-go');
+            this.time.delayedCall(4000, () => {
+                this.dialogueOffSetX = 60;
+                dialogue.setTexture('9-lab4');
+            }, null, this);
+        }
+        
+        if(this.track == "level3") {
+            this.track = "finished"
+            this.backgroundMusic.pause()
+            this.backgroundMusic =  this.sound.add('bgm_level3', {
+                volume: 1,
+                loop: true
+            })
+            this.backgroundMusic.play()
         }
     }
     collectMecha() {
@@ -478,18 +557,22 @@ class CutScene1 extends Phaser.Scene {
         bdIsActive = true;
     }
     action1() {  
-        console.log('test')
         moveLeft = false;
     }
     action2() {
-        moveLeft = true;
+        if(stage == "lava demo" || stage == "wait for action") {
+            stage = "emergency"
+        } else {
+            moveLeft = true;
+        }
     }
     action3(obj) {
         obj.body.setVelocityY(-300)
         moveLeft = true;
     }
     action4(obj) {
-        if(stage == "goodbye") {
+        if(stage == "movetoEnd" || stage == "goodbye" || stage == "finished") {
+            stage = "goodbye"
             moveLeft = false;
             moveRight = false;
         } else {
