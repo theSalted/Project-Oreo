@@ -7,8 +7,8 @@ class CutScene1 extends Phaser.Scene {
         this.load.tilemapTiledJSON('level', './assets/cutscene1.json');
         // tiles in spritesheet 
         this.load.image('tiles', './assets/tiles.png');
-        this.load.image('key', './assets/key.png');
         this.load.image('flag', './assets/flag.png');
+        this.load.image('1-took-you-long-enough', './assets/speech/1-took-you-long-enough.png');
         // load mecha sprite
         this.load.spritesheet('mecha', './assets/wall-b-mecha.png', {frameWidth: 57, frameHeight: 81, startFrame: 0, endFrame: 6});
         this.load.spritesheet('wall-b', './assets/wall-b.png', {frameWidth: 56, frameHeight: 68, startFrame: 0, endFrame: 3});
@@ -46,10 +46,6 @@ class CutScene1 extends Phaser.Scene {
         //create blue door layer
         blueDoor = map.createLayer('DoorBlue', groundTiles, 0, 0);
         blueDoor.setCollisionByExclusion(-1, true);
-        
-        //create green wall layer
-        greenDoor = map.createLayer('DoorGreen', groundTiles, 0, 0);
-        greenDoor.setCollisionByExclusion(-1, true);
         
         //create ButtonBlue layer
         blueButton = map.createLayer('ButtonBlue', groundTiles, 0, 0);
@@ -112,23 +108,6 @@ class CutScene1 extends Phaser.Scene {
         scientist.setDragX(1000);
         scientist.setPushable(false);
         
-        // create key sprite
-        key = this.physics.add.sprite(700, 320, 'key');
-        key.setDragX(100);
-        
-        key1 = this.physics.add.sprite(1470, 200, 'key');
-        key1.setDragX(100);
-        
-        key2 = this.physics.add.sprite(1920, 550, 'key');
-        key2.setDragX(100);
-        
-        keyIcon = this.add.image(0, 0, 'key');
-        keyIcon1 = this.add.image(0, 0, 'key');
-        keyIcon2 = this.add.image(0, 0, 'key');
-        keyIcon.alpha = 0
-        keyIcon1.alpha = 0
-        keyIcon2.alpha = 0
-        
         door = this.physics.add.sprite(2180, 400, 'flag')
         
         // define colliders
@@ -152,21 +131,6 @@ class CutScene1 extends Phaser.Scene {
         this.physics.add.collider(scientist, this.trigger3, this.action4);
         this.physics.add.collider(scientist, this.trigger4, this.action5);
         
-        this.physics.add.collider(key, groundLayer);
-        this.physics.add.collider(key, conveyorBelt, this.onConveyorBelt);
-        this.physics.add.collider(key, wallb, this.collectKey, this.sound1);
-        this.physics.add.collider(key, mecha, this.collectKey, this.sound1);
-        
-        this.physics.add.collider(key1, groundLayer);
-        this.physics.add.collider(key1, conveyorBelt, this.onConveyorBelt);
-        this.physics.add.collider(key1, wallb, this.collectKey);
-        this.physics.add.collider(key1, mecha, this.collectKey);
-        
-        this.physics.add.collider(key2, groundLayer);
-        this.physics.add.collider(key2, conveyorBelt, this.onConveyorBelt);
-        this.physics.add.collider(key2, wallb, this.collectKey);
-        this.physics.add.collider(key2, mecha, this.collectKey)
-        
         this.physics.add.collider(door, groundLayer);
         this.physics.add.collider(door, conveyorBelt);
         this.physics.add.overlap(door, mecha, this.reachFlag, null, this);
@@ -185,14 +149,6 @@ class CutScene1 extends Phaser.Scene {
         // collider for doors
         this.physics.add.collider(blueDoor, wallb);
         this.BDMechaC =  this.physics.add.collider(blueDoor, mecha);
-        this.BDKeyC =  this.physics.add.collider(blueDoor, key);
-        this.BDKey1C =  this.physics.add.collider(blueDoor, key1);
-        this.BDKey2C =  this.physics.add.collider(blueDoor, key2);
-        
-        this.GDMechaC = this.physics.add.collider(greenDoor, mecha);
-        this.GDKeyC =  this.physics.add.collider(greenDoor, key);
-        this.GDKey1C =  this.physics.add.collider(greenDoor, key1);
-        this.GDKey2C =  this.physics.add.collider(greenDoor, key2);
         
     
         // wallb walk animation
@@ -263,12 +219,6 @@ class CutScene1 extends Phaser.Scene {
             frameRate: 1,
             repeat: -1
         });
-
-        
-        // initialize keyCount
-        keyCount = 0;
-        // display keyCount
-        //text = this.add.text(100, 100, keyCount, textConfig);
         
         // key mapping
         cursors = this.input.keyboard.createCursorKeys();
@@ -296,7 +246,6 @@ class CutScene1 extends Phaser.Scene {
         // initialize BB and GB flag
         bdIsActive = false;
         //blueDoor.alpha = 0.2;
-        gdIsActive = false;
         
         // initialize restart flag
         restart = false;
@@ -365,34 +314,6 @@ class CutScene1 extends Phaser.Scene {
         if(player == wallb && mecha.body.onFloor()) {
             mecha.collectable = true;
         }
-
-        if(keyCount == 1) {
-            //this.sound.play('collect');
-            keyIcon.alpha = 1;
-            keyIcon.x = player.x;
-            keyIcon.y = player.y - 50;
-        }
-        if(keyCount == 2){
-            //this.sound.play('collect');
-            keyIcon.alpha = 1;
-            keyIcon1.alpha = 1;
-            keyIcon.x = player.x - 10
-            keyIcon.y = player.y - 50
-            keyIcon1.x = player.x + 10
-            keyIcon1.y = player.y - 50
-        }
-        if(keyCount == 3){
-            //this.sound.play('collect');
-            keyIcon.alpha = 1;
-            keyIcon1.alpha = 1;
-            keyIcon2.alpha = 1;
-            keyIcon.x = player.x - 20
-            keyIcon.y = player.y - 50
-            keyIcon1.x = player.x + 20
-            keyIcon1.y = player.y - 50
-            keyIcon2.x = player.x + 0
-            keyIcon2.y = player.y - 50
-        }
         
         if (player == mecha) {
             this.BDMechaC.active = true;
@@ -414,21 +335,7 @@ class CutScene1 extends Phaser.Scene {
             blueDoor.alpha = 1;
         }
         
-        if (gdIsActive) {
-            this.GDMechaC.active = false;
-            this.GDKeyC.active = false;
-            this.GDKey1C.active = false;
-            this.GDKey2C.active = false;
-            greenDoor.alpha = 0.2;
-        } else {
-            this.GDMechaC.active = true;
-            this.GDKeyC.active = true;
-            this.GDKey1C.active = true;
-            this.GDKey2C.active = true;
-            greenDoor.alpha = 1;
-        }
         bdIsActive = false;
-        gdIsActive = false;
         
         if (this.lavaRise) {
             lava.y -= 0.2;
@@ -558,18 +465,7 @@ class CutScene1 extends Phaser.Scene {
     onConveyorBelt(obj){
         obj.body.setVelocityX(200);
     }
-    collectKey(key) {
-        key.disableBody(true, true);
-        keyCount += 1;
-        //text.text = keyCount;
-    }
     reachFlag() {
-        // restart the scene once condition is met
-        if (keyCount == 3 && player == mecha) {
-            this.sound.play("congratss");
-            this.scene.start("level2Scene");
-            this.backgroundMusic.stop();
-        }
     }
     touchLava() {
         //restart = true;
@@ -580,9 +476,6 @@ class CutScene1 extends Phaser.Scene {
     }
     onBB() {
         bdIsActive = true;
-    }
-    onGB() {
-        gdIsActive = true;
     }
     action1() {  
         console.log('test')
