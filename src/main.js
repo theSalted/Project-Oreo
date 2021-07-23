@@ -60,6 +60,7 @@ var restart;
 var moveLeft;
 var moveRight;
 var nextLevel;
+var end = "end1";
 var stage = "";
 
 let textConfig = {

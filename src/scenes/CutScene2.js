@@ -4,7 +4,7 @@ class CutScene2 extends Phaser.Scene {
 	}
 	preload() {
 		// map made with Tiled in JSON format
-		this.load.tilemapTiledJSON('level5', './assets/cutscene1.json');
+		this.load.tilemapTiledJSON('level5', './assets/cutscene2.json');
 		// tiles in spritesheet 
 		this.load.image('tiles', './assets/tiles.png');
 		this.load.image('flag', './assets/flag.png');
@@ -13,24 +13,18 @@ class CutScene2 extends Phaser.Scene {
 		this.load.spritesheet('wall-b', './assets/wall-b.png', {frameWidth: 56, frameHeight: 68, startFrame: 0, endFrame: 3});
 		this.load.spritesheet('scientist', './assets/scientist.png', {frameWidth: 57, frameHeight: 81, startFrame: 0, endFrame: 13});
 		
-		this.load.image('1-took-you-long-enough', './assets/speech/1-took-you-long-enough.png');
-		this.load.image('2-come-closer', './assets/speech/2-come-closer.png');
-		this.load.image('3-010-M', './assets/speech/3-010-M.png');
-		this.load.image('4-lemeshowu', './assets/speech/4-lemeshowu.png');
-		this.load.image('5-lava-proof', './assets/speech/5-lava-proof.png');
-		this.load.image('6-sys-warn', './assets/speech/6-sys-warn.png');
-		this.load.image('7-oh-no', './assets/speech/7-oh-no.png');
-		this.load.image('8-go', './assets/speech/8-go.png');
-		this.load.image('9-lab4', './assets/speech/9-lab4.png');
+		this.load.image('10-you-made-it', './assets/speech/10-you-made-it.png');
+		this.load.image('11-damn-it', './assets/speech/11-damn-it.png');
+		this.load.image('12-this-is-it', './assets/speech/12-this-is-it.png');
+		this.load.image('13-speechless', './assets/speech/13-speechless.png');
+		this.load.image('14-dont-think-about-it', './assets/speech/14-dont-think-about-it.png');
+		this.load.image('15-I-will-be-fine', './assets/speech/15-I-will-be-fine.png');
+		this.load.image('16-take-care-youself', './assets/speech/16-take-care-youself.png');
+		this.load.image('17-nooo', './assets/speech/17-nooo.png');
 	}
 
 	create() {
 		console.log("cutscene 2")
-		this.backgroundMusic =  this.sound.add('bgm_level1', {
-			volume: 1,
-			loop: true
-		})
-		this.backgroundMusic.play()
 		
 		// load the map 
 		map5 = this.make.tilemap({ key: 'level5' });
@@ -66,7 +60,7 @@ class CutScene2 extends Phaser.Scene {
 		greenButton.setCollisionByExclusion(-1, true);
 		
 		//create lava layer
-		lava = map5.createLayer('Lava', groundTiles, 0, 120);
+		lava = map5.createLayer('Lava', groundTiles, 0, 200);
 		lava.setCollisionByExclusion(-1, true);
 		
 		this.invisibleWall = map5.createLayer('invisibleWall', groundTiles, 0, 0);
@@ -81,31 +75,16 @@ class CutScene2 extends Phaser.Scene {
 		this.trigger2.setCollisionByExclusion(-1, true);
 		this.trigger2.setAlpha(0);
 		
-		this.trigger3 = map5.createLayer('Trigger3', groundTiles, 0, 0);
-		this.trigger3.setCollisionByExclusion(-1, true);
-		this.trigger3.setAlpha(0);
-		
-		this.trigger4 = map5.createLayer('Trigger4', groundTiles, 0, 0);
-		this.trigger4.setCollisionByExclusion(-1, true);
-		this.trigger4.setAlpha(0);
-		
-		this.trigger5 = map5.createLayer('Trigger5', groundTiles, 0, 0);
-		this.trigger5.setCollisionByExclusion(-1, true);
-		this.trigger5.setAlpha(0);
-		
-		dialogue = this.add.image(0, 0, '1-took-you-long-enough');
+		dialogue = this.add.image(0, 0, '10-you-made-it');
 		dialogue.setScale(.3);
 		
-		this.sysWarn = this.add.image(600, 350, "6-sys-warn");
-		this.sysWarn.setScale(.4);
-		this.sysWarn.setAlpha(0);
 
 		// set the boundaries of our game world
 		this.physics.world.bounds.width = groundLayer.width;
 		this.physics.world.bounds.height = groundLayer.height;
 
 		// create the player sprite    
-		wallb = this.physics.add.sprite(1000, 450, 'wall-b');
+		wallb = this.physics.add.sprite(50, 410, 'wall-b');
 		wallb.setScale(0.4, 0.4);
 		//wallb.setBounceY(0.3); // our player will bounce from ground
 		wallb.setCollideWorldBounds(true); // don't go out of the map 
@@ -113,10 +92,10 @@ class CutScene2 extends Phaser.Scene {
 		
 		
 		// create the Mecha sprite
-		mecha = this.physics.add.sprite(16, 400, 'mecha');
+		mecha = this.physics.add.sprite(100, 410, 'mecha');
 		mecha.setScale(0.8, 0.8);
 		//mecha.setBounceY(0.3);
-		//mecha.setCollideWorldBounds(true);
+		mecha.setCollideWorldBounds(true);
 		mecha.setDragX(1000);
 		
 		// initialize mecha collectable flag
@@ -126,7 +105,7 @@ class CutScene2 extends Phaser.Scene {
 		mecha.body.setOffset(0, 61)
 		
 		// create scientist
-		scientist = this.physics.add.sprite(800, 430, 'scientist');
+		scientist = this.physics.add.sprite(900, 410, 'scientist');
 		scientist.setScale(0.8, 0.8);
 		//mecha.setBounceY(0.3);
 		scientist.setCollideWorldBounds(true);
@@ -141,6 +120,9 @@ class CutScene2 extends Phaser.Scene {
 		this.physics.add.collider(wallb, conveyorBelt, this.onConveyorBelt);
 		this.physics.add.overlap(wallb, mecha, this.collectMecha, null, this);
 		this.physics.add.collider(wallb, this.trigger5, this.reachFlag);
+		this.physics.add.collider(wallb, this.trigger1, this.action1);
+		this.physics.add.collider(wallb, this.trigger2, this.action2);
+		
 		// make player wallb in the beginning of the game
 		player = wallb
 		wallb.setDragX(1000);
@@ -148,14 +130,15 @@ class CutScene2 extends Phaser.Scene {
 		this.physics.add.collider(mecha, groundLayer);
 		this.physics.add.collider(mecha, conveyorBelt, this.onConveyorBelt);
 		this.physics.add.collider(mecha, groundLayer);
+		this.physics.add.collider(mecha, this.trigger1, this.action1);
+		this.physics.add.collider(mecha, this.trigger2, this.action2);
 		
 		this.physics.add.collider(scientist, groundLayer);
 		this.physics.add.collider(scientist, conveyorBelt);
+		this.physics.add.collider(scientist, blueDoor);
 		this.physics.add.collider(scientist, this.invisibleWall, this.action1);
-		this.physics.add.collider(scientist, this.trigger1, this.action2);
-		this.physics.add.collider(scientist, this.trigger2, this.action3);
-		this.physics.add.collider(scientist, this.trigger3, this.action4);
-		this.physics.add.collider(scientist, this.trigger4, this.action5);
+		this.physics.add.collider(scientist, mecha, this.end2);
+		//this.physics.add.collider(scientist, lava, this.touchLava);
 		
 		this.physics.add.collider(door, groundLayer);
 		this.physics.add.collider(door, conveyorBelt);
@@ -169,8 +152,6 @@ class CutScene2 extends Phaser.Scene {
 		
 		this.physics.add.collider(greenButton, mecha, this.onGB);
 		this.physics.add.collider(greenButton, wallb, this.onGB);
-		
-		this.physics.add.collider(lava, wallb, this.touchLava);
 		
 		// collider for doors
 		this.physics.add.collider(blueDoor, wallb);
@@ -261,7 +242,7 @@ class CutScene2 extends Phaser.Scene {
 		// set bounds so the camera won't go outside the game world
 		this.cameras.main.setBounds(0, 0, map5.widthInPixels, map5.heightInPixels);
 		// make the camera follow the player
-		this.cameras.main.startFollow(player);
+		this.cameras.main.startFollow(scientist);
 
 		// set background color, so the sky is not black    
 		this.cameras.main.setBackgroundColor('#110e21');
@@ -270,45 +251,35 @@ class CutScene2 extends Phaser.Scene {
 		this.canMidAirJump = false;
 		
 		// initialize BB and GB flag
-		bdIsActive = false;
+		bdIsActive = true;
 		//blueDoor.alpha = 0.2;
 		
 		// initialize restart flag
 		restart = false;
 		// initialize lava rise flag
-		this.lavaRise = false;
+		this.lavaRise = true;
 		this.lavaHeight = 595;
 		this.isExpand = false;
 		this.isDevMode = true;
-		this.isScienticha =  true;
-		this.dialogueOffSetX = 60;
+		this.isScienticha =  false;
+		this.dialogueOffSetX = -60;
 		this.dialogueOffSetY = -60;
 		this.track = "level1";
 		nextLevel = false;
 		moveLeft = false;
 		moveRight = false;
-		
-		mecha.alpha = 0;
-		
-		this.time.delayedCall(4000, () => {
-			dialogue.setTexture('2-come-closer');
-			this.time.delayedCall(3000, () => {
-				dialogue.setTexture('3-010-M');
-				dialogue.setScale(.5);
-				this.time.delayedCall(2000, () => {
-					dialogue.setTexture('4-lemeshowu');
-					dialogue.setScale(.3);
-					moveLeft = true;
-					stage = "lava demo"
-				}, null, this);
-			}, null, this);
+		this.interrupt = false;
+		scientist.flipX = true;
+		end = "end1";
+		this.time.delayedCall(25000, () => {
+			this.scene.start("gameOverscene");
 		}, null, this);
 	}
 
 	update() {
 		if (Phaser.Input.Keyboard.JustDown(keyT)) {
 			this.backgroundMusic.stop();
-			this.scene.start("level1Scene");
+			this.scene.start("gameOverscene");
 		}
 		if (Phaser.Input.Keyboard.JustDown(keyQ)) {
 			console.log('x: ' + player.x + ", y: " + player.y)
@@ -379,10 +350,10 @@ class CutScene2 extends Phaser.Scene {
 			blueDoor.alpha = 1;
 		}
 		
-		bdIsActive = false;
+		
 		if (this.lavaRise) {
-			lava.y -= 0.06;
-			this.lavaHeight -= 0.06
+			lava.y -= 0.12;
+			this.lavaHeight -= 0.12
 		}
 		if (lava.y <= 0) {
 			this.lavaRise = false;
@@ -392,64 +363,48 @@ class CutScene2 extends Phaser.Scene {
 		dialogue.y = scientist.y + this.dialogueOffSetY;
 		
 		if(restart) {
-			this.reset();
-		}
-		if(stage == "mecha release") {
-			//console.log(stage);
-			this.isScienticha = false;
-			mecha.x = scientist.x;
-			mecha.y = scientist.y;
-			mecha.alpha = 1;
-			mecha.anims.stop();
-			mecha.anims.playReverse('collapse', true);
-			moveLeft = true;
-			stage = "movetoEnd";
-		}
-		if(stage == "emergency") {
-			stage = "wait for action"
-			scientist.flipX = false;
-			dialogue.setTexture('5-lava-proof');
-			this.time.delayedCall(3000, () => {
-				this.sysWarn.setAlpha(1);
-				this.lavaRise = true;
-				if(this.track != "finished") {
-					this.track = "level3";
-				}
-				this.time.delayedCall(2000, () => {
-					dialogue.setTexture('7-oh-no');
-					this.cameras.main.startFollow(scientist);
-					this.time.delayedCall(1000, () => {
-						stage = "transition to top"
-					}, null, this);
-				}, null, this);
+			this.time.delayedCall(2000, () => {
+				this.scene.start("gameOverscene");
 			}, null, this);
-		}
-		if (stage == "goodbye") {
-			stage = "finished"
-			this.sysWarn.setAlpha(0);
-			this.dialogueOffSetX = 200;
-			scientist.flipX = false;
-			dialogue.setTexture('8-go');
-			this.time.delayedCall(4000, () => {
-				this.dialogueOffSetX = 60;
-				dialogue.setTexture('9-lab4');
-				this.cameras.main.startFollow(player);
-			}, null, this);
-		}
-		
-		if(this.track == "level3") {
-			this.track = "finished"
-			this.backgroundMusic.pause()
-			this.backgroundMusic =  this.sound.add('bgm_level3', {
-				volume: 1,
-				loop: true
-			})
-			this.backgroundMusic.play()
 		}
 		
 		if(nextLevel) {
 			this.backgroundMusic.stop();
-			this.scene.start("level1Scene");
+			this.scene.start("gameOverscene");
+		}
+		
+		if(end == "end2") {
+			this.dialogueOffSetX = - 100
+			dialogue.setScale(0.7);
+			dialogue.setTexture('17-nooo');
+			mecha.body.enable = false;
+			// make wallb reaper
+			mecha.alpha = 0;
+			this.isScienticha = true;
+			this.time.delayedCall(2000, () => {
+				this.scene.start("gameOverscene");
+			}, null, this);
+		}
+		if(stage == "doorup") {
+			stage = "finished";
+			dialogue.setTexture('11-damn-it');
+			this.time.delayedCall(2000, () => {
+				dialogue.setTexture('12-this-is-it');
+				this.time.delayedCall(2000, () => {
+					dialogue.setTexture('13-speechless');
+					this.time.delayedCall(2000, () => {
+						dialogue.setTexture('14-dont-think-about-it');
+						this.time.delayedCall(4000, () => {
+							this.dialogueOffSetX = - 100
+							dialogue.setTexture('15-I-will-be-fine');
+							this.time.delayedCall(4000, () => {
+								dialogue.setScale(0.5);
+								dialogue.setTexture('16-take-care-youself');
+							}, null, this);
+						}, null, this);
+					}, null, this);
+				}, null, this);
+			}, null, this);
 		}
 	}
 	collectMecha() {
@@ -460,7 +415,7 @@ class CutScene2 extends Phaser.Scene {
 			// make player the mecha
 			player = mecha
 			// update the camera 
-			this.cameras.main.startFollow(player);
+			this.cameras.main.startFollow(scientist);
 			// disable wallb physics
 			wallb.body.enable = false;
 			// hide wallb
@@ -495,8 +450,6 @@ class CutScene2 extends Phaser.Scene {
 				wallb.alpha = 1;
 				// make the player wallb
 				player = wallb
-				// update the camera 
-				this.cameras.main.startFollow(player);
 				// mid air jump
 				player.body.setVelocityY(-200);
 				// disable mid air jump once performed
@@ -559,55 +512,27 @@ class CutScene2 extends Phaser.Scene {
 		}
 	}
 	touchLava() {
-		//restart = true;
+		restart = true;
 	}
 	reset() {
-		this.scene.start("level1Scene");
+		this.scene.start("CutScene2");
 		this.backgroundMusic.stop();
 	}
 	onBB() {
 		bdIsActive = true;
 	}
 	action1() {  
-		moveLeft = false;
+		//action 1
+		bdIsActive = false;
+		if(stage != "finished") {
+			stage = "doorup";
+		}
 	}
 	action2() {
-		if(stage == "lava demo" || stage == "wait for action") {
-			stage = "emergency"
-		} else {
-			moveLeft = true;
-		}
+		//action 2
 	}
-	action3(obj) {
-		obj.body.setVelocityY(-300)
-		moveLeft = true;
-	}
-	action4(obj) {
-		if(stage == "movetoEnd" || stage == "goodbye" || stage == "finished") {
-			stage = "goodbye"
-			moveLeft = false;
-			moveRight = false;
-		} else {
-			obj.body.setVelocityY(-400)
-			moveLeft = false;
-			moveRight = true;
-		}
-	}
-	action5(obj) {
-		if(obj == scientist) {
-			if(stage == "goodbye") {
-				moveLeft = true;
-			} else {
-				moveLeft = false;
-				moveRight = false;
-				stage = "mecha release";
-			}
-			
-		}
-		if(obj == mecha) {
-			obj.body.setVelocityX(200);
-		}
-		
+	end2() {
+		end = "end2";
 	}
 
 }

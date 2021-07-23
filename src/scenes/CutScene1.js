@@ -561,7 +561,7 @@ class CutScene1 extends Phaser.Scene {
         //restart = true;
     }
     reset() {
-        this.scene.start("level1Scene");
+        this.scene.start("CutScene1");
         this.backgroundMusic.stop();
     }
     onBB() {
