@@ -67,13 +67,13 @@ class CutScene2 extends Phaser.Scene {
 		this.invisibleWall.setCollisionByExclusion(-1, true);
 		this.invisibleWall.setAlpha(0);
 		
-		this.trigger1 = map5.createLayer('Trigger1', groundTiles, 0, 0);
-		this.trigger1.setCollisionByExclusion(-1, true);
-		this.trigger1.setAlpha(0);
+		this.trigger1_2 = map5.createLayer('Trigger1', groundTiles, 0, 0);
+		this.trigger1_2.setCollisionByExclusion(-1, true);
+		this.trigger1_2.setAlpha(0);
 		
-		this.trigger2 = map5.createLayer('Trigger2', groundTiles, 0, 0);
-		this.trigger2.setCollisionByExclusion(-1, true);
-		this.trigger2.setAlpha(0);
+		this.trigger2_2 = map5.createLayer('Trigger2', groundTiles, 0, 0);
+		this.trigger2_2.setCollisionByExclusion(-1, true);
+		this.trigger2_2.setAlpha(0);
 		
 		dialogue = this.add.image(0, 0, '10-you-made-it');
 		dialogue.setScale(.3);
@@ -120,8 +120,8 @@ class CutScene2 extends Phaser.Scene {
 		this.physics.add.collider(wallb, conveyorBelt, this.onConveyorBelt);
 		this.physics.add.overlap(wallb, mecha, this.collectMecha, null, this);
 		this.physics.add.collider(wallb, this.trigger5, this.reachFlag);
-		this.physics.add.collider(wallb, this.trigger1, this.action1);
-		this.physics.add.collider(wallb, this.trigger2, this.action2);
+		this.physics.add.collider(wallb, this.trigger1_2, this.action1);
+		this.physics.add.collider(wallb, this.trigger2_2, this.action2);
 		
 		// make player wallb in the beginning of the game
 		player = wallb
@@ -130,8 +130,8 @@ class CutScene2 extends Phaser.Scene {
 		this.physics.add.collider(mecha, groundLayer);
 		this.physics.add.collider(mecha, conveyorBelt, this.onConveyorBelt);
 		this.physics.add.collider(mecha, groundLayer);
-		this.physics.add.collider(mecha, this.trigger1, this.action1);
-		this.physics.add.collider(mecha, this.trigger2, this.action2);
+		this.physics.add.collider(mecha, this.trigger1_2, this.action1);
+		this.physics.add.collider(mecha, this.trigger2_2, this.action2);
 		
 		this.physics.add.collider(scientist, groundLayer);
 		this.physics.add.collider(scientist, conveyorBelt);
