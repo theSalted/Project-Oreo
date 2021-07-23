@@ -4,7 +4,7 @@ class CutScene1 extends Phaser.Scene {
     }
     preload() {
         // map made with Tiled in JSON format
-        this.load.tilemapTiledJSON('level', './assets/cutscene1.json');
+        this.load.tilemapTiledJSON('level4', './assets/cutscene1.json');
         // tiles in spritesheet 
         this.load.image('tiles', './assets/tiles.png');
         this.load.image('flag', './assets/flag.png');
@@ -32,61 +32,65 @@ class CutScene1 extends Phaser.Scene {
         this.backgroundMusic.play()
         
         // load the map 
-        map = this.make.tilemap({ key: 'level' });
+        map4 = this.make.tilemap({ key: 'level4' });
         
         // tiles for the ground layer
-        var groundTiles = map.addTilesetImage('tileset', 'tiles', 16, 16);
+        var groundTiles = map4.addTilesetImage('tileset', 'tiles', 16, 16);
         // create the scene layer
-        sceneLayer = map.createLayer('Scene', groundTiles, 0, 0);
+        sceneLayer = map4.createLayer('Scene', groundTiles, 0, 0);
         // create the prop layer
-        propLayer = map.createLayer('Prop', groundTiles, 0, 0);
+        propLayer = map4.createLayer('Prop', groundTiles, 0, 0);
         // create the guide layer
-        guideLayer = map.createLayer('Guide', groundTiles, 0, 0);
+        guideLayer = map4.createLayer('Guide', groundTiles, 0, 0);
         // create the ground layer
-        groundLayer = map.createLayer('Background', groundTiles, 0, 0);
+        groundLayer = map4.createLayer('Background', groundTiles, 0, 0);
         //player collision
         //groundLayer.setCollisionByProperty({ collides: true });
         groundLayer.setCollisionByExclusion(-1, true);
         
         // create the conveyorBelt layer 
-        conveyorBelt = map.createLayer('ConveyorBelt', groundTiles, 0, 0);
+        conveyorBelt = map4.createLayer('ConveyorBelt', groundTiles, 0, 0);
         conveyorBelt.setCollisionByExclusion(-1, true);
         
         //create blue door layer
-        blueDoor = map.createLayer('DoorBlue', groundTiles, 0, 0);
+        blueDoor = map4.createLayer('DoorBlue', groundTiles, 0, 0);
         blueDoor.setCollisionByExclusion(-1, true);
         
         //create ButtonBlue layer
-        blueButton = map.createLayer('ButtonBlue', groundTiles, 0, 0);
+        blueButton = map4.createLayer('ButtonBlue', groundTiles, 0, 0);
         blueButton.setCollisionByExclusion(-1, true);
         
         //create ButtonGreen layer
-        greenButton = map.createLayer('ButtonGreen', groundTiles, 0, 0);
+        greenButton = map4.createLayer('ButtonGreen', groundTiles, 0, 0);
         greenButton.setCollisionByExclusion(-1, true);
         
         //create lava layer
-        lava = map.createLayer('Lava', groundTiles, 0, 80);
+        lava = map4.createLayer('Lava', groundTiles, 0, 120);
         lava.setCollisionByExclusion(-1, true);
         
-        this.invisibleWall = map.createLayer('invisibleWall', groundTiles, 0, 0);
+        this.invisibleWall = map4.createLayer('invisibleWall', groundTiles, 0, 0);
         this.invisibleWall.setCollisionByExclusion(-1, true);
         this.invisibleWall.setAlpha(0);
         
-        this.trigger1 = map.createLayer('Trigger1', groundTiles, 0, 0);
+        this.trigger1 = map4.createLayer('Trigger1', groundTiles, 0, 0);
         this.trigger1.setCollisionByExclusion(-1, true);
         this.trigger1.setAlpha(0);
         
-        this.trigger2 = map.createLayer('Trigger2', groundTiles, 0, 0);
+        this.trigger2 = map4.createLayer('Trigger2', groundTiles, 0, 0);
         this.trigger2.setCollisionByExclusion(-1, true);
         this.trigger2.setAlpha(0);
         
-        this.trigger3 = map.createLayer('Trigger3', groundTiles, 0, 0);
+        this.trigger3 = map4.createLayer('Trigger3', groundTiles, 0, 0);
         this.trigger3.setCollisionByExclusion(-1, true);
         this.trigger3.setAlpha(0);
         
-        this.trigger4 = map.createLayer('Trigger4', groundTiles, 0, 0);
+        this.trigger4 = map4.createLayer('Trigger4', groundTiles, 0, 0);
         this.trigger4.setCollisionByExclusion(-1, true);
         this.trigger4.setAlpha(0);
+        
+        this.trigger5 = map4.createLayer('Trigger5', groundTiles, 0, 0);
+        this.trigger5.setCollisionByExclusion(-1, true);
+        this.trigger5.setAlpha(0);
         
         dialogue = this.add.image(0, 0, '1-took-you-long-enough');
         dialogue.setScale(.3);
@@ -135,13 +139,14 @@ class CutScene1 extends Phaser.Scene {
         this.physics.add.collider(wallb, scientist);
         this.physics.add.collider(wallb, conveyorBelt, this.onConveyorBelt);
         this.physics.add.overlap(wallb, mecha, this.collectMecha, null, this);
+        this.physics.add.collider(wallb, this.trigger5, this.reachFlag);
         // make player wallb in the beginning of the game
         player = wallb
         wallb.setDragX(1000);
         
         this.physics.add.collider(mecha, groundLayer);
         this.physics.add.collider(mecha, conveyorBelt, this.onConveyorBelt);
-        this.physics.add.collider(mecha, this.trigger4, this.action5);
+        this.physics.add.collider(mecha, groundLayer);
         
         this.physics.add.collider(scientist, groundLayer);
         this.physics.add.collider(scientist, conveyorBelt);
@@ -253,7 +258,7 @@ class CutScene1 extends Phaser.Scene {
         this.KisDown = keyK.isDown
 
         // set bounds so the camera won't go outside the game world
-        this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+        this.cameras.main.setBounds(0, 0, map4.widthInPixels, map4.heightInPixels);
         // make the camera follow the player
         this.cameras.main.startFollow(player);
 
@@ -270,7 +275,7 @@ class CutScene1 extends Phaser.Scene {
         // initialize restart flag
         restart = false;
         // initialize lava rise flag
-        this.lavaRise = true;
+        this.lavaRise = false;
         this.lavaHeight = 595;
         this.isExpand = false;
         this.isDevMode = true;
@@ -278,6 +283,7 @@ class CutScene1 extends Phaser.Scene {
         this.dialogueOffSetX = 60;
         this.dialogueOffSetY = -60;
         this.track = "level1";
+        nextLevel = false;
         moveLeft = false;
         moveRight = false;
         
@@ -301,7 +307,7 @@ class CutScene1 extends Phaser.Scene {
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyT)) {
             this.backgroundMusic.stop();
-            this.scene.start("level2Scene");
+            this.scene.start("level1Scene");
         }
         if (Phaser.Input.Keyboard.JustDown(keyQ)) {
             console.log('x: ' + player.x + ", y: " + player.y)
@@ -373,17 +379,10 @@ class CutScene1 extends Phaser.Scene {
         }
         
         bdIsActive = false;
-        
         if (this.lavaRise) {
-            lava.y -= 0.2;
-            this.lavaHeight -= 0.2
-        } else {
-            lava.y += 0.2;
-            this.lavaHeight += 0.2
+            lava.y -= 0.06;
+            this.lavaHeight -= 0.06
         }
-        if (lava.y >= 100) {
-            this.lavaRise = true;
-        } 
         if (lava.y <= 0) {
             this.lavaRise = false;
         }
@@ -411,26 +410,29 @@ class CutScene1 extends Phaser.Scene {
             dialogue.setTexture('5-lava-proof');
             this.time.delayedCall(3000, () => {
                 this.sysWarn.setAlpha(1);
+                this.lavaRise = true;
                 if(this.track != "finished") {
                     this.track = "level3";
                 }
                 this.time.delayedCall(2000, () => {
                     dialogue.setTexture('7-oh-no');
+                    this.cameras.main.startFollow(scientist);
                     this.time.delayedCall(1000, () => {
                         stage = "transition to top"
-                        this.sysWarn.setAlpha(0);
                     }, null, this);
                 }, null, this);
             }, null, this);
         }
         if (stage == "goodbye") {
             stage = "finished"
+            this.sysWarn.setAlpha(0);
             this.dialogueOffSetX = 200;
             scientist.flipX = false;
             dialogue.setTexture('8-go');
             this.time.delayedCall(4000, () => {
                 this.dialogueOffSetX = 60;
                 dialogue.setTexture('9-lab4');
+                this.cameras.main.startFollow(player);
             }, null, this);
         }
         
@@ -442,6 +444,11 @@ class CutScene1 extends Phaser.Scene {
                 loop: true
             })
             this.backgroundMusic.play()
+        }
+        
+        if(nextLevel) {
+            this.backgroundMusic.stop();
+            this.scene.start("level1Scene");
         }
     }
     collectMecha() {
@@ -545,6 +552,10 @@ class CutScene1 extends Phaser.Scene {
         obj.body.setVelocityX(200);
     }
     reachFlag() {
+        console.log('touched')
+        if(stage == "finished") {
+            nextLevel = true;
+        }
     }
     touchLava() {
         //restart = true;
@@ -576,7 +587,7 @@ class CutScene1 extends Phaser.Scene {
             moveLeft = false;
             moveRight = false;
         } else {
-            obj.body.setVelocityY(-350)
+            obj.body.setVelocityY(-400)
             moveLeft = false;
             moveRight = true;
         }

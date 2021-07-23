@@ -27,6 +27,7 @@ var count;
 var map;
 var map2;
 var map3;
+var map4;
 var player;
 var wallb;
 var mecha;
@@ -57,6 +58,7 @@ var gdIsActive;
 var restart;
 var moveLeft;
 var moveRight;
+var nextLevel;
 var stage = "";
 
 let textConfig = {
