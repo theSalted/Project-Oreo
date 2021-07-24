@@ -208,6 +208,7 @@ class Level2 extends Phaser.Scene {
 		cursors = this.input.keyboard.createCursorKeys();
 		keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 		keyT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
+		keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
 		// set bounds so the camera won't go outside the game world
 		this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -232,7 +233,11 @@ class Level2 extends Phaser.Scene {
 		if (Phaser.Input.Keyboard.JustDown(keyT)) {
 			this.backgroundMusic.stop();
             this.scene.start("level3Scene");
-        }	
+        }
+		if (Phaser.Input.Keyboard.JustDown(keyR)) {
+			this.backgroundMusic.stop();
+			this.scene.start("level2Scene");
+		}
 		if (cursors.left.isDown) {
 			if(player == wallb){
 				player.body.setVelocityX(-200); // move left

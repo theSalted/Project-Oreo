@@ -234,6 +234,7 @@ class CutScene2 extends Phaser.Scene {
 		keyK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
 		keyX = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
 		keyT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
+		keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 		keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
 		
 		this.JisDown = keyJ.isDown
@@ -279,8 +280,10 @@ class CutScene2 extends Phaser.Scene {
 
 	update() {
 		if (Phaser.Input.Keyboard.JustDown(keyT)) {
-			this.backgroundMusic.stop();
 			this.scene.start("gameOverscene");
+		}
+		if (Phaser.Input.Keyboard.JustDown(keyR)) {
+			this.scene.start("CutScene2");
 		}
 		if (Phaser.Input.Keyboard.JustDown(keyQ)) {
 			console.log('x: ' + player.x + ", y: " + player.y)
